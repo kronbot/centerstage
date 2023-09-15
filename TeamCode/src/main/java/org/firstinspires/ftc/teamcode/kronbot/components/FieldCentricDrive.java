@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
+import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.ControlHubGyroscope;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Gyroscope;
 
 /**
@@ -17,7 +18,7 @@ public class FieldCentricDrive {
     MotorDriver motors;
     Gamepad gamepad;
 
-    Gyroscope gyroscope;
+    ControlHubGyroscope gyroscope;
 
     double speed = 1.0;
     public static final double controllerDeadzone = 0.15;
@@ -25,7 +26,7 @@ public class FieldCentricDrive {
     double rotatedX = 0;
     double rotatedY = 0;
 
-    public FieldCentricDrive(MotorDriver motors, Gamepad gamepad, Gyroscope gyroscope) {
+    public FieldCentricDrive(MotorDriver motors, Gamepad gamepad, ControlHubGyroscope gyroscope) {
         this.motors = motors;
         this.gamepad = gamepad;
         this.gyroscope = gyroscope;

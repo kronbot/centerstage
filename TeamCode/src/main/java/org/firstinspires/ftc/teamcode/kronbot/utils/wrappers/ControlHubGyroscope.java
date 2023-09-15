@@ -1,44 +1,48 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.wrappers;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
 
 /**
- * A wrapper for the gyroscope
+ * A wrapper for the gyroscope on the control hub
  *
  * @version 1.0
  */
-public class Gyroscope {
-    BNO055IMU imu;
+public class ControlHubGyroscope {
+    BHI260IMU imu;
     HardwareMap hardwareMap;
 
     public double firstHeading = 0;
     public double firstLateral = 0;
     public double firstForward = 0;
 
-    boolean firstAngles = false;
+    public boolean firstAngles = false;
 
-    public Gyroscope(HardwareMap hardwareMap) {
+    public ControlHubGyroscope(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
     }
 
     public void Init() {
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        imu = hardwareMap.get(BHI260IMU.class, "imu");
 
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        ImuOrientationOnRobot imuOrientationOnRobot =
+            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD);
+
+        BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(imuOrientationOnRobot);
 
         imu.initialize(parameters);
-    }
-
-    public BNO055IMU getIMU() {
-        return imu;
     }
 
     Orientation angularOrientation;
@@ -49,7 +53,7 @@ public class Gyroscope {
 
     public void updateOrientation() {
         if (orientationUpdateTimer.milliseconds() > updateInterval) {
-            angularOrientation = imu.getAngularOrientation();
+            angularOrientation = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             orientationUpdateTimer.reset();
         }
     }
@@ -58,7 +62,7 @@ public class Gyroscope {
 
     public void updateVelocity() {
         if (velocityUpdateTimer.milliseconds() > updateInterval) {
-            angularVelocity = imu.getAngularVelocity();
+            angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
             velocityUpdateTimer.reset();
         }
     }
@@ -77,6 +81,10 @@ public class Gyroscope {
 
     public double getForwardAngle() {
         return angularOrientation.thirdAngle;
+    }
+
+    public void resetHeading() {
+        imu.resetYaw();
     }
 
     public void initFirstAngles() {

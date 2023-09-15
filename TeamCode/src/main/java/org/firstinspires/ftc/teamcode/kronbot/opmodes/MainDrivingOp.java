@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.kronbot.components.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
+import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.ControlHubGyroscope;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Gyroscope;
 
 /**
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Gyroscope;
 @TeleOp(name = "Main Driving", group = Constants.mainGroup)
 public class MainDrivingOp extends LinearOpMode {
     MotorDriver motors;
-    Gyroscope gyroscope;
+    ControlHubGyroscope gyroscope;
 
     RobotCentricDrive robotCentricDrive;
     FieldCentricDrive fieldCentricDrive;
@@ -35,7 +36,7 @@ public class MainDrivingOp extends LinearOpMode {
         motors = new MotorDriver(hardwareMap);
         motors.Init();
 
-        gyroscope = new Gyroscope(hardwareMap);
+        gyroscope = new ControlHubGyroscope(hardwareMap);
         gyroscope.Init();
 
         robotCentricDrive = new RobotCentricDrive(motors, drivingGamepad);
@@ -49,13 +50,16 @@ public class MainDrivingOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         Button driveModeButton = new Button();
+        Button reverseButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.x);
-            driveModeButton.shortPress();
             driveModeButton.longPress();
 
-            robotCentricDrive.setReverse(driveModeButton.getShortToggle());
+            reverseButton.updateButton(drivingGamepad.b);
+            reverseButton.longPress();
+
+            robotCentricDrive.setReverse(driveModeButton.getLongToggle());
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
