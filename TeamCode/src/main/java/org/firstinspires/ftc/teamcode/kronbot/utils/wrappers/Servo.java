@@ -18,7 +18,7 @@ public class Servo {
     boolean continuousMode = false;
     boolean isReversed = false;
 
-    public Servo(HardwareMap hardwareMap, String name) {
+    public Servo(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
     }
 
@@ -45,8 +45,14 @@ public class Servo {
 
             continuousServo.setPower(position);
         }
-        else
+        else {
+            if (position > 1)
+                position = 1;
+            else if (position < 0)
+                position = 0;
+
             servo.setPosition(position);
+        }
     }
 
     public double getPosition() {
