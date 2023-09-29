@@ -39,8 +39,8 @@ public class MainDrivingOp extends LinearOpMode {
     Servo armServo;
     Servo planeServo;
 
-    public static double BreakPower = 0;
-    public static double Ticks = -400;
+    public static double BreakPower = -0.008;
+    public static double Ticks = -288;
     public static double Offset = 0.2;
     DcMotor arm;
 
@@ -129,10 +129,11 @@ public class MainDrivingOp extends LinearOpMode {
             }
 
             if (drivingGamepad.right_trigger > 0.1) {
-                arm.setPower(drivingGamepad.right_trigger * Offset  );
+                arm.setPower(drivingGamepad.right_trigger * Offset);
             } else if (drivingGamepad.left_trigger > 0.1) {
                 arm.setPower(-drivingGamepad.left_trigger * Offset);
             } else {
+                telemetry.addData("Position", arm.getCurrentPosition());
                 if (arm.getCurrentPosition() > Ticks)
                     arm.setPower(BreakPower);
                 else
