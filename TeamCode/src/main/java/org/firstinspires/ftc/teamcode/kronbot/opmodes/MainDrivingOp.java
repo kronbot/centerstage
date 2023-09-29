@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.teamcode.kronbot.components.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.components.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
@@ -21,6 +23,7 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
  *
  * @version 1.0
  */
+@Config
 @TeleOp(name = "Main Driving", group = Constants.mainGroup)
 public class MainDrivingOp extends LinearOpMode {
     MotorDriver motors;
@@ -36,6 +39,9 @@ public class MainDrivingOp extends LinearOpMode {
     Servo armServo;
     Servo planeServo;
 
+    public static double BreakPower = 0;
+    public static double Ticks = -400;
+    public static double Offset = 0.2;
     DcMotor arm;
 
     @Override
@@ -64,7 +70,10 @@ public class MainDrivingOp extends LinearOpMode {
         planeServo.Init("plane", false, false);
         planeServo.setPosition(1);
 
-        arm = hardwareMap.get(DcMotorImpl.class, "arm");
+        arm = hardwareMap.get(DcMotorImpl.class, "armMotor");
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -120,11 +129,15 @@ public class MainDrivingOp extends LinearOpMode {
             }
 
             if (drivingGamepad.right_trigger > 0.1) {
-                arm.setPower(drivingGamepad.right_trigger);
+                arm.setPower(drivingGamepad.right_trigger * Offset  );
             } else if (drivingGamepad.left_trigger > 0.1) {
-                arm.setPower(drivingGamepad.left_trigger);
-            } else
-                arm.setPower(0.3);
+                arm.setPower(-drivingGamepad.left_trigger * Offset);
+            } else {
+                if (arm.getCurrentPosition() > Ticks)
+                    arm.setPower(BreakPower);
+                else
+                    arm.setPower(-BreakPower);
+            }
 
             telemetry.update();
         }
