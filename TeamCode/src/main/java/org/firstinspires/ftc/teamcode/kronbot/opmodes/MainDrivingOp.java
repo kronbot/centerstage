@@ -41,7 +41,7 @@ public class MainDrivingOp extends LinearOpMode {
 
     public static double BreakPower = -0.008;
     public static double Ticks = -288;
-    public static double Offset = 0.2;
+    public static double Offset = 0.01;
     DcMotor arm;
 
     @Override
@@ -72,14 +72,13 @@ public class MainDrivingOp extends LinearOpMode {
 
         arm = hardwareMap.get(DcMotorImpl.class, "armMotor");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
             telemetry.update();
         }
-
         if (isStopRequested()) return;
 
         Button driveModeButton = new Button();
@@ -128,18 +127,14 @@ public class MainDrivingOp extends LinearOpMode {
                 armServo.setPosition(armServo.getPosition() + 0.05);
             }
 
-            if (drivingGamepad.right_trigger > 0.1) {
-                arm.setPower(drivingGamepad.right_trigger * Offset);
-            } else if (drivingGamepad.left_trigger > 0.1) {
-                arm.setPower(-drivingGamepad.left_trigger * Offset);
-            } else {
-                telemetry.addData("Position", arm.getCurrentPosition());
-                if (arm.getCurrentPosition() > Ticks)
-                    arm.setPower(BreakPower);
-                else
-                    arm.setPower(-BreakPower);
+            if (drivingGamepad.right_bumper)
+            {
+                arm.setPower(Offset);
             }
-
+            else if (drivingGamepad.left_bumper)
+            {
+                arm.setPower(-Offset);
+            }
             telemetry.update();
         }
     }
