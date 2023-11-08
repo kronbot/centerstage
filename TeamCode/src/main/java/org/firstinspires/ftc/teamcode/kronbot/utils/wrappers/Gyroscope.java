@@ -28,8 +28,9 @@ public class Gyroscope {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init() {
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+    public void Init(BNO055IMU imu) {
+        this.imu = imu;
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

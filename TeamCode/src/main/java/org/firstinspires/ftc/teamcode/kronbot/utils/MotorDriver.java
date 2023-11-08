@@ -21,11 +21,11 @@ public class MotorDriver {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init() {
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+    public void Init(DcMotorEx leftRear, DcMotorEx leftFront, DcMotorEx rightRear, DcMotorEx rightFront) {
+        this.leftRear = leftRear;
+        this.leftFront = leftFront;
+        this.rightRear = rightRear;
+        this.rightFront = rightFront;
 
         ArrayList<DcMotorEx> motors = new ArrayList<DcMotorEx>(Arrays.asList(leftRear, rightRear, leftFront, rightFront));
 

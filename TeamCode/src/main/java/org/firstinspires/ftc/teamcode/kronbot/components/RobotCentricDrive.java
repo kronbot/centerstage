@@ -4,7 +4,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
+
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
 
 /**
  * Robot centric drive is a drive system that allows the robot to move in a direction relative to the robot
@@ -13,16 +17,13 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
  */
 @Config
 public class RobotCentricDrive {
-    MotorDriver motors;
+    KronBot robot;
     Gamepad gamepad;
 
-    double speed = 1.0;
-
-    public static double controllerDeadzone = 0.15;
     double reverse = 1.0;
 
-    public RobotCentricDrive(MotorDriver motors, Gamepad gamepad) {
-        this.motors = motors;
+    public RobotCentricDrive(KronBot robot, Gamepad gamepad) {
+        this.robot = robot;
         this.gamepad = gamepad;
     }
 
@@ -42,15 +43,15 @@ public class RobotCentricDrive {
         double leftRearPower = (y - x + r) / normalizer;
         double rightRearPower = (y + x - r) / normalizer;
 
-        motors.leftFront.setPower(leftFrontPower);
-        motors.rightFront.setPower(rightFrontPower);
-        motors.leftRear.setPower(leftRearPower);
-        motors.rightRear.setPower(rightRearPower);
+        robot.motors.leftFront.setPower(leftFrontPower);
+        robot.motors.rightFront.setPower(rightFrontPower);
+        robot.motors.leftRear.setPower(leftRearPower);
+        robot.motors.rightRear.setPower(rightRearPower);
     }
 
     public double addons(double value) {
-        if (Math.abs(value) < controllerDeadzone) return 0;
-        return value * speed;
+        if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
+        return value * SPEED;
     }
 
     public void setReverse(boolean isReverse) {
@@ -62,16 +63,16 @@ public class RobotCentricDrive {
         telemetry.addLine("---ROBOT CENTRIC DRIVE---");
 
         telemetry.addData("Direction Multiplier: ", reverse);
-        telemetry.addData("Speed Multiplier: ", speed);
+        telemetry.addData("Speed Multiplier: ", SPEED);
 
-        telemetry.addData("LeftRear Position: ", motors.leftRear.getCurrentPosition());
-        telemetry.addData("RightRear Position: ", motors.rightRear.getCurrentPosition());
-        telemetry.addData("LeftFront Position: ", motors.leftFront.getCurrentPosition());
-        telemetry.addData("RightFront Position: ", motors.rightFront.getCurrentPosition());
+        telemetry.addData("LeftRear Position: ", robot.motors.leftRear.getCurrentPosition());
+        telemetry.addData("RightRear Position: ", robot.motors.rightRear.getCurrentPosition());
+        telemetry.addData("LeftFront Position: ", robot.motors.leftFront.getCurrentPosition());
+        telemetry.addData("RightFront Position: ", robot.motors.rightFront.getCurrentPosition());
 
-        telemetry.addData("LeftRear Power: ", motors.leftRear.getPower());
-        telemetry.addData("RightRear Power: ", motors.rightRear.getPower());
-        telemetry.addData("LeftFront Power: ", motors.leftFront.getPower());
-        telemetry.addData("RightFront Power: ", motors.rightFront.getPower());
+        telemetry.addData("LeftRear Power: ", robot.motors.leftRear.getPower());
+        telemetry.addData("RightRear Power: ", robot.motors.rightRear.getPower());
+        telemetry.addData("LeftFront Power: ", robot.motors.leftFront.getPower());
+        telemetry.addData("RightFront Power: ", robot.motors.rightFront.getPower());
     }
 }
