@@ -25,7 +25,7 @@ public class Motor {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(String name, String name2, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes) {
+    public void init(String name, String name2, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes) {
         motor = hardwareMap.get(DcMotorEx.class, name);
         motor2 = hardwareMap.get(DcMotorEx.class, name2);
 

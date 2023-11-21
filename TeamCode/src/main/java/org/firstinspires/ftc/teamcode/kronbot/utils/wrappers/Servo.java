@@ -22,7 +22,7 @@ public class Servo {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(String name, boolean continuousMode, boolean isReversed) {
+    public void init(String name, boolean continuousMode, boolean isReversed) {
         this.continuousMode = continuousMode;
         if (continuousMode)
             continuousServo = hardwareMap.get(CRServoImplEx.class, name);

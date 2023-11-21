@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
-import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
@@ -59,7 +58,7 @@ public class RobotCentricDrive {
         else reverse = 1.0;
     }
 
-    public void showInfo(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addLine("---ROBOT CENTRIC DRIVE---");
 
         telemetry.addData("Direction Multiplier: ", reverse);

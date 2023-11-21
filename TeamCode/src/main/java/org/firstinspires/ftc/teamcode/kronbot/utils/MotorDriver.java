@@ -21,7 +21,7 @@ public class MotorDriver {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(DcMotorEx leftRear, DcMotorEx leftFront, DcMotorEx rightRear, DcMotorEx rightFront) {
+    public void init(DcMotorEx leftRear, DcMotorEx leftFront, DcMotorEx rightRear, DcMotorEx rightFront) {
         this.leftRear = leftRear;
         this.leftFront = leftFront;
         this.rightRear = rightRear;

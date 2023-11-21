@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -16,10 +15,9 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
  *
  * @version 1.0
  */
-@Config
 @TeleOp(name = "Main Driving", group = Constants.MAIN_GROUP)
 public class MainDrivingOp extends LinearOpMode {
-    KronBot robot;
+    private final KronBot robot = new KronBot();
 
     RobotCentricDrive robotCentricDrive;
     FieldCentricDrive fieldCentricDrive;
@@ -29,8 +27,7 @@ public class MainDrivingOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        KronBot robot = new KronBot();
-        robot.Init(hardwareMap);
+        robot.init(hardwareMap);
 
         drivingGamepad = gamepad1;
         utilityGamepad = gamepad2;
@@ -58,10 +55,10 @@ public class MainDrivingOp extends LinearOpMode {
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
-                robotCentricDrive.showInfo(telemetry);
+                robotCentricDrive.telemetry(telemetry);
             } else {
                 fieldCentricDrive.run();
-                fieldCentricDrive.showInfo(telemetry);
+                fieldCentricDrive.telemetry(telemetry);
             }
 
             telemetry.update();

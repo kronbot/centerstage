@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
-import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.ControlHubGyroscope;
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Gyroscope;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
@@ -64,7 +61,7 @@ public class FieldCentricDrive {
         return value * SPEED;
     }
 
-    public void showInfo(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addLine("---FIELD CENTRIC DRIVE---");
 
         telemetry.addData("Speed Multiplier", SPEED);

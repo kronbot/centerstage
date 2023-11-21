@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.wrappers;
 
 import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
@@ -34,7 +33,7 @@ public class ControlHubGyroscope {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(BHI260IMU imu) {
+    public void init(BHI260IMU imu) {
         this.imu = hardwareMap.get(BHI260IMU.class, "imu");
 
         ImuOrientationOnRobot imuOrientationOnRobot =

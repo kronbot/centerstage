@@ -28,7 +28,7 @@ public class Gyroscope {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(BNO055IMU imu) {
+    public void init(BNO055IMU imu) {
         this.imu = imu;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
