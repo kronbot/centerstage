@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.kronbot;
 
+import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,7 +18,7 @@ public class KronBot {
         DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BHI260IMU imu = hardwareMap.get(BHI260IMU.class, "imu");
 
         motors = new MotorDriver(hardwareMap);
         motors.Init(leftRear, leftFront, rightRear, rightFront);

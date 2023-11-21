@@ -34,7 +34,7 @@ public class ControlHubGyroscope {
         this.hardwareMap = hardwareMap;
     }
 
-    public void Init(BNO055IMU imu) {
+    public void Init(BHI260IMU imu) {
         this.imu = hardwareMap.get(BHI260IMU.class, "imu");
 
         ImuOrientationOnRobot imuOrientationOnRobot =

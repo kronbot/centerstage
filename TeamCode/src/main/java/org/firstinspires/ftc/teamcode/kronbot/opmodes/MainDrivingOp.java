@@ -29,6 +29,7 @@ public class MainDrivingOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        KronBot robot = new KronBot();
         robot.Init(hardwareMap);
 
         drivingGamepad = gamepad1;
