@@ -19,7 +19,7 @@ public class TagDetection {
     List<AprilTagDetection> tags;
 
     public void init(HardwareMap hardwareMap) {
-        visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor, tfod);
+        visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);
         visionPortal.setProcessorEnabled(aprilTagProcessor, true);
     }
 
