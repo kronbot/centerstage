@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 
 import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
 
@@ -46,8 +45,8 @@ public class Motor {
     PIDCoefficients velocityCoefficients = new PIDCoefficients(0.0005, 0.0000, 0.00005);
     double maxVel = 1000;
 
-    PIDFController posController = new PIDFController(positionCoefficients);
-    PIDFController velController = new PIDFController(velocityCoefficients);
+//    PIDFController posController = new PIDFController(positionCoefficients);
+//    PIDFController velController = new PIDFController(velocityCoefficients);
 
     public double calcPos;
     public double power;
@@ -55,15 +54,15 @@ public class Motor {
     public void updatePosition() {
         currentPosition = motor.getCurrentPosition();
 
-        posController.setTargetPosition(calcPos);
+//        posController.setTargetPosition(calcPos);
 
-        power = posController.update(currentPosition);
+//        power = posController.update(currentPosition);
         motor.setPower((power + 0.15) * 0.9);
         motor2.setPower((power + 0.15) * 0.9);
     }
 
     public void resetPID() {
-        PIDFController posController = new PIDFController(positionCoefficients);
+//        PIDFController posController = new PIDFController(positionCoefficients);
     }
 
     boolean voltageCompensated = false;
