@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.ControlHubGyroscope;
+import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 
 public class KronBot {
     public MotorDriver motors;

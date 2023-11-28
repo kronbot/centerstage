@@ -9,18 +9,18 @@ import org.firstinspires.ftc.teamcode.kronbot.components.TrackDrive;
 
 @TeleOp(name = "iceOpMode")
 public class IceDrivingOp extends LinearOpMode {
-    KronBot robot;
+    KronBot robot = new KronBot();
     Gamepad gamepad;
 
     TrackDrive trackDrive;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new KronBot();
         robot.init(hardwareMap);
-        gamepad = new Gamepad();
-        trackDrive = new TrackDrive(robot, gamepad);
+        gamepad = gamepad1;
 
+        trackDrive = new TrackDrive(robot, gamepad,hardwareMap);
+        trackDrive.init();
         waitForStart();
 
         if(isStopRequested()) return;
