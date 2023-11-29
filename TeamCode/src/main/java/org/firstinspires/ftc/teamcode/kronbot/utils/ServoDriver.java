@@ -32,12 +32,13 @@ public class ServoDriver {
         if (position > 0 && clawServo.getPosition() < 0.99 || position < 0 && clawServo.getPosition() > 0.01)
             clawServo.setPosition(clawServo.getPosition() + 0.0025 * position);
     }
+    
 
     public void arm(double position) {
         position = addons(position);
         if (position == 0) return;
-        if (position > 0 && armServo.getPosition() < 0.99 || position < 0 && armServo.getPosition() > 0.01)
-            armServo.setPosition(armServo.getPosition() + 0.0025 * position);
+        if (position > 0 && armServo.getPosition() < 0.39 || position < 0 && armServo.getPosition() > 0.01)
+            armServo.setPosition(armServo.getPosition() + 0.001 * position);
     }
 
     public double addons(double value) {
