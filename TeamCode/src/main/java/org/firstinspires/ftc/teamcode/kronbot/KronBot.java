@@ -38,7 +38,9 @@ public class KronBot {
         motors.init(leftRear, leftFront, rightRear, rightFront);
 
         servos = new ServoDriver();
+        clawServo.setPosition(0);
         servos.init(armServo, intakeServo, clawServo);
+        servos.intake(true);
 
         gyroscope = new ControlHubGyroscope(hardwareMap);
         gyroscope.init(imu);
