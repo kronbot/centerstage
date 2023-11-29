@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.kronbot.components;
 
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -9,80 +12,43 @@ import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 
+/**
+ * Track drive is a drive system that allows the robot to move using tracks
+ *
+ * @version 1.0
+ */
 @Config
 public class TrackDrive {
     KronBot robot;
     Gamepad gamepad;
     double reverse;
-    Servo intakeServo;
-    Servo armServo;
-    HardwareMap hardwareMap;
 
-    public static Integer power1=500;
-    public static Integer power2=2500;
-    public static double closed1=0;
-    public static double open1=0.7;
-    public TrackDrive(KronBot robot, Gamepad gamepad,HardwareMap hardwareMap) {
+    public TrackDrive(KronBot robot, Gamepad gamepad) {
         this.robot = robot;
         this.gamepad = gamepad;
-        this.hardwareMap = hardwareMap;
-    }
 
-    public void init() {
-        intakeServo = new Servo(hardwareMap);
-        intakeServo.init("intake", false, true);
-        intakeServo.setPWMRange(500, 2500);
-        armServo = new Servo(hardwareMap);
-        armServo.init("arm", false, true);
-        armServo.setPWMRange(power1, power2);
-    }
-    public enum ClawModes
-    {
-        CLOSED(0),
-        OPEN(0.7),
-        CLOSED1(closed1),
-        OPEN1(open1);
-
-        public double position = 0;
-
-        ClawModes(double value) {
-            this.position = value;
-        }
-    }
-    ClawModes intakeState = ClawModes.OPEN;
-    Button intakeButton = new Button();
-    ClawModes armState = ClawModes.OPEN1;
-    Button armButton = new Button();
-    public void run() {
         robot.motors.leftRear.setDirection(DcMotorEx.Direction.REVERSE);
         robot.motors.leftFront.setDirection(DcMotorEx.Direction.REVERSE);
-        double y = -gamepad.left_stick_y;
-        double r = -gamepad.right_stick_y;
+    }
 
-        intakeButton.updateButton(gamepad.dpad_right);
-        intakeButton.toggle();
+    public void run() {
+        double y = -gamepad.left_stick_y * reverse;
+        double r = -gamepad.right_stick_y * reverse;
 
-        if (intakeButton.getToggleStatus())
-            intakeState = ClawModes.CLOSED;
-        else
-            intakeState = ClawModes.OPEN;
+        y = addons(y) * reverse;
+        r = addons(r);
 
-        intakeServo.setPosition(intakeState.position);
+        double normalizer = Math.max(Math.abs(y) + Math.abs(r), 1.0);
 
-        armButton.updateButton(gamepad.dpad_up);
-        armButton.toggle();
+        robot.motors.leftFront.setPower((y + r) / normalizer);
+        robot.motors.leftRear.setPower((y + r) / normalizer);
+        robot.motors.rightFront.setPower((y - r) / normalizer);
+        robot.motors.rightRear.setPower((y - r) / normalizer);
+    }
 
-        if (armButton.getToggleStatus())
-            armState = ClawModes.CLOSED1;
-        else
-            armState = ClawModes.OPEN1;
-
-        armServo.setPosition(armState.position);
-
-        robot.motors.leftFront.setPower(y + r);
-        robot.motors.leftRear.setPower(y + r);
-        robot.motors.rightFront.setPower(y - r);
-        robot.motors.rightRear.setPower(y - r);
+    public double addons(double value) {
+        if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
+        return value * SPEED;
     }
 
     public void setReverse(boolean isReverse) {
