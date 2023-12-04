@@ -13,7 +13,8 @@ public class KronBot {
     public ServoDriver servos;
     public ControlHubGyroscope gyroscope;
 
-    public Servo armServo;
+    public Servo armServo1;
+    public Servo armServo2;
     public Servo clawServo;
     public Servo intakeServo;
 
@@ -31,15 +32,17 @@ public class KronBot {
         clawServo = new Servo(hardwareMap);
         clawServo.init("claw", false, true);
 
-        armServo = new Servo(hardwareMap);
-        armServo.init("arm", false, true);
+        armServo1 = new Servo(hardwareMap);
+        armServo1.init("arm", false, true);
+        armServo2 = new Servo(hardwareMap);
+        armServo2.init("arm2", false, true);
 
         motors = new MotorDriver();
         motors.init(leftRear, leftFront, rightRear, rightFront);
 
         servos = new ServoDriver();
         clawServo.setPosition(0);
-        servos.init(armServo, intakeServo, clawServo);
+        servos.init(armServo1, armServo2, intakeServo, clawServo);
         servos.intake(true);
 
         gyroscope = new ControlHubGyroscope(hardwareMap);

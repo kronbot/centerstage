@@ -52,11 +52,13 @@ public class IceDrivingOp extends LinearOpMode {
 
             robot.servos.intake(!intakeButton.getShortToggle());
             double clawPosition = gamepad.left_bumper && gamepad.right_bumper ? 0 : gamepad.right_bumper ? 1 : gamepad.left_bumper ? -1 : 0;
-            telemetry.addData("Claw Position", robot.clawServo.getPosition());
-            double armPosition = gamepad.x && gamepad.a ? 0 : gamepad.a ? 1 : gamepad.x ? -1 : 0;
-            telemetry.addData("arm Position", robot.armServo.getPosition());
             robot.servos.claw(clawPosition);
-            robot.servos.arm(armPosition);
+            telemetry.addData("Claw Position", robot.clawServo.getPosition());
+
+            robot.servos.arm(gamepad.right_trigger - gamepad.left_trigger);
+            robot.servos.claw(clawPosition);
+            telemetry.addData("Arm 1 Position", robot.armServo1.getPosition());
+            telemetry.addData("Arm 2 Position", robot.armServo2.getPosition());
 
             trackDrive.setReverse(reverseButton.getLongToggle());
             trackDrive.run();
