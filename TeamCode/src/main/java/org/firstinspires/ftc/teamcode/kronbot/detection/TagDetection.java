@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.kronbot.detection;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -19,6 +21,11 @@ public class TagDetection {
     List<AprilTagDetection> tags;
 
     public void init(HardwareMap hardwareMap) {
+        aprilTagProcessor = new AprilTagProcessor.Builder()
+                .setDrawTagID(true)
+                .setDrawCubeProjection(true)
+                .build();
+
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);
         visionPortal.setProcessorEnabled(aprilTagProcessor, true);
     }
@@ -32,10 +39,15 @@ public class TagDetection {
     }
 
     public void detect() {
-        List<AprilTagDetection> tags = aprilTagProcessor.getDetections();
+        tags = aprilTagProcessor.getDetections();
     }
 
     public void telemetry(Telemetry telemetry) {
+        if (tags.size() == 0) {
+            telemetry.addLine("No tags detected");
+            return;
+        }
+
         for (AprilTagDetection tag : tags) {
             telemetry.addData("Tag ID", tag.metadata.id);
             telemetry.addData("Tag X", tag.ftcPose.x);
@@ -43,6 +55,7 @@ public class TagDetection {
             telemetry.addData("Tag Z", tag.ftcPose.z);
             telemetry.addData("Tag Roll", tag.ftcPose.roll);
             telemetry.addData("Tag Pitch", tag.ftcPose.pitch);
+            telemetry.addLine(" ");
         }
     }
 }

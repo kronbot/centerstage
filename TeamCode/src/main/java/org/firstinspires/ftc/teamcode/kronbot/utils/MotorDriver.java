@@ -15,11 +15,6 @@ import java.util.Arrays;
  */
 public class MotorDriver {
     public DcMotorEx leftRear, leftFront, rightRear, rightFront;
-    HardwareMap hardwareMap;
-
-    public MotorDriver(HardwareMap hardwareMap) {
-        this.hardwareMap = hardwareMap;
-    }
 
     public void init(DcMotorEx leftRear, DcMotorEx leftFront, DcMotorEx rightRear, DcMotorEx rightFront) {
         this.leftRear = leftRear;
