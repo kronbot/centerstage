@@ -33,7 +33,7 @@ public class ServoDriver {
         position = addons(position);
         if (position == 0) return;
         if (position > 0 && clawServo.getPosition() < 0.99 || position < 0 && clawServo.getPosition() > 0.01)
-            clawServo.setPosition(clawServo.getPosition() + 0.0025 * position);
+            clawServo.setPosition(clawServo.getPosition() + 0.001 * position);
     }
     
 
@@ -42,7 +42,7 @@ public class ServoDriver {
         if (position == 0) return;
         if (position > 0 && armServo1.getPosition() < 0.5 || position < 0 && armServo1.getPosition() > 0.01)
             armServo1.setPosition(armServo1.getPosition() + 0.0025 * position);
-        if (position > 0 && armServo2.getPosition() > 0.5 || position < 0 && armServo2.getPosition() > 0.99)
+        if (position > 0 && armServo2.getPosition() > 0.5 || position < 0 && armServo2.getPosition() < 0.99)
             armServo2.setPosition(armServo2.getPosition() - 0.0025 * position);
     }
 

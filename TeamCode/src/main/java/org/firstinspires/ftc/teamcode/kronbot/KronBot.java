@@ -42,6 +42,8 @@ public class KronBot {
 
         servos = new ServoDriver();
         clawServo.setPosition(0);
+        armServo1.setPosition(0);
+        armServo2.setPosition(1);
         servos.init(armServo1, armServo2, intakeServo, clawServo);
         servos.intake(true);
 
