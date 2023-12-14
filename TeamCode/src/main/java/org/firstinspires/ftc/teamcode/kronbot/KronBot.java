@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.kronbot;
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.kronbot.utils.MotorDriver;
-import org.firstinspires.ftc.teamcode.kronbot.utils.ServoDriver;
+import org.firstinspires.ftc.teamcode.kronbot.utils.drivers.MotorDriver;
+import org.firstinspires.ftc.teamcode.kronbot.utils.drivers.ServoDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.ControlHubGyroscope;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 

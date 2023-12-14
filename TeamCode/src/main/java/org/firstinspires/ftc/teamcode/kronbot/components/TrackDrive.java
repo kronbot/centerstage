@@ -1,16 +1,13 @@
 package org.firstinspires.ftc.teamcode.kronbot.components;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ROBOT_SPEED;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 
 /**
  * Track drive is a drive system that allows the robot to move using tracks
@@ -48,7 +45,7 @@ public class TrackDrive {
 
     public double addons(double value) {
         if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
-        return value * SPEED;
+        return value * ROBOT_SPEED;
     }
 
     public void setReverse(boolean isReverse) {

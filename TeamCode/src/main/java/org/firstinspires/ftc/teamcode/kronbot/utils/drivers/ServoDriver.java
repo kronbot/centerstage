@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.kronbot.utils;
+package org.firstinspires.ftc.teamcode.kronbot.utils.drivers;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
 
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 

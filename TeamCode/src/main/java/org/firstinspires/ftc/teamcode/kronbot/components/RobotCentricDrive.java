@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ROBOT_SPEED;
 
 /**
  * Robot centric drive is a drive system that allows the robot to move in a direction relative to the robot
@@ -50,7 +50,7 @@ public class RobotCentricDrive {
 
     public double addons(double value) {
         if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
-        return value * SPEED;
+        return value * ROBOT_SPEED;
     }
 
     public void setReverse(boolean isReverse) {
@@ -62,7 +62,7 @@ public class RobotCentricDrive {
         telemetry.addLine("---ROBOT CENTRIC DRIVE---");
 
         telemetry.addData("Direction Multiplier: ", reverse);
-        telemetry.addData("Speed Multiplier: ", SPEED);
+        telemetry.addData("Speed Multiplier: ", ROBOT_SPEED);
 
         telemetry.addData("LeftRear Position: ", robot.motors.leftRear.getCurrentPosition());
         telemetry.addData("RightRear Position: ", robot.motors.rightRear.getCurrentPosition());

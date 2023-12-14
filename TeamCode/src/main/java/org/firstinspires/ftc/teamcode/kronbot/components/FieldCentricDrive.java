@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SPEED;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ROBOT_SPEED;
 
 /**
  * Field centric drive is a drive system that allows the robot to move in a direction relative to the field
@@ -58,13 +58,13 @@ public class FieldCentricDrive {
 
     private double addons(double value) {
         if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
-        return value * SPEED;
+        return value * ROBOT_SPEED;
     }
 
     public void telemetry(Telemetry telemetry) {
         telemetry.addLine("---FIELD CENTRIC DRIVE---");
 
-        telemetry.addData("Speed Multiplier", SPEED);
+        telemetry.addData("Speed Multiplier", ROBOT_SPEED);
         telemetry.addData("Robot Angle", robot.gyroscope.getHeading());
 
         telemetry.addData("rotatedX", rotatedX);

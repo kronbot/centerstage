@@ -14,5 +14,6 @@ public class Constants {
 
     public static final double CONTROLLER_DEADZONE = 0.15;
 
-    public static final double SPEED = 1.0;
+    public static final double ROBOT_SPEED = 1.0;
+    public static final double SLIDES_SPEED = 1.0;
 }

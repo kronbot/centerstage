@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.wrappers;
 
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
@@ -16,7 +17,6 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
  */
 public class Motor {
     public DcMotorEx motor;
-    public DcMotorEx motor2;
     HardwareMap hardwareMap;
     VoltageSensor voltageSensor;
 
@@ -24,45 +24,31 @@ public class Motor {
         this.hardwareMap = hardwareMap;
     }
 
-    public void init(String name, String name2, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes) {
+    public void init(String name, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes, boolean reset) {
         motor = hardwareMap.get(DcMotorEx.class, name);
-        motor2 = hardwareMap.get(DcMotorEx.class, name2);
-
-        motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        if (reset)
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
-
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setDirection(DcMotor.Direction.REVERSE);
-        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         this.setDirection(isReversed);
         this.setPositionPIDMode(positionPIDMode);
         this.setVelocityPIDFMode(velocityPIDFMode);
+        motor.setTargetPosition(0);
+        motor.setTargetPositionTolerance(10);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.setBrakes(brakes);
     }
 
-    PIDCoefficients positionCoefficients = new PIDCoefficients(0.007, 0.003, 0.001);
-    PIDCoefficients velocityCoefficients = new PIDCoefficients(0.0005, 0.0000, 0.00005);
-    double maxVel = 1000;
-
-//    PIDFController posController = new PIDFController(positionCoefficients);
-//    PIDFController velController = new PIDFController(velocityCoefficients);
-
-    public double calcPos;
-    public double power;
+    com.acmerobotics.roadrunner.control.PIDCoefficients coeffs = new PIDCoefficients(8, 3, 0);
+    PIDFController controller = new PIDFController(coeffs, 0, 0);
 
     public void updatePosition() {
-        currentPosition = motor.getCurrentPosition();
+        controller.setTargetPosition(targetPosition);
 
-//        posController.setTargetPosition(calcPos);
-
-//        power = posController.update(currentPosition);
-        motor.setPower((power + 0.15) * 0.9);
-        motor2.setPower((power + 0.15) * 0.9);
-    }
-
-    public void resetPID() {
-//        PIDFController posController = new PIDFController(positionCoefficients);
+        if (motor.isBusy())
+            motor.setPower(1);
+        else
+            motor.setPower(0.1);
     }
 
     boolean voltageCompensated = false;
@@ -72,12 +58,16 @@ public class Motor {
         this.voltageCompensated = voltageCompensated;
     }
 
-    public double getVoltageCompensation() {
-        return (12 / voltageSensor.getVoltage());
+    public void resetPID() {
+        PIDFController posController = new PIDFController(coeffs, 0, 0);
     }
 
     boolean positionPIDMode = false;
     ControllerPID positionPID = new ControllerPID(0, 0, 0);
+
+    public double getVoltageCompensation() {
+        return (12 / voltageSensor.getVoltage());
+    }
 
     public void setPositionPIDMode(boolean positionPIDMode) {
         this.positionPIDMode = positionPIDMode;
@@ -100,7 +90,7 @@ public class Motor {
         this.tolerance = tolerance;
     }
 
-    public double direction = 1;
+    public double direction = -1;
 
     double getDirection() {
         if (currentPosition <= targetPosition)
@@ -115,7 +105,6 @@ public class Motor {
 
     public void setPower(double power) {
         motor.setPower(power);
-        motor2.setPower(power);
     }
 
     boolean hold = false;
