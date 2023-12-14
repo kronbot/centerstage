@@ -16,4 +16,5 @@ public class Constants {
 
     public static final double ROBOT_SPEED = 1.0;
     public static final double SLIDES_SPEED = 1.0;
+    public static final double REST_POWER = 0.15;
 }

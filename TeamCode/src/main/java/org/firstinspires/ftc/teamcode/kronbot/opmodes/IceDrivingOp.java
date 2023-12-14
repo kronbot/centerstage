@@ -62,7 +62,6 @@ public class IceDrivingOp extends LinearOpMode {
             robot.servos.claw(clawPosition);
             telemetry.addData("Arm 1 Position", robot.armServo1.getPosition());
             telemetry.addData("Arm 2 Position", robot.armServo2.getPosition());
-
             trackDrive.setReverse(reverseButton.getLongToggle());
             trackDrive.run();
 
