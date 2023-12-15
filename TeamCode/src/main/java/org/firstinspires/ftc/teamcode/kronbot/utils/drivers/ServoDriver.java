@@ -45,6 +45,11 @@ public class ServoDriver {
             armServo2.setPosition(armServo2.getPosition() - 0.0025 * position);
     }
 
+    public void cutArmPower() {
+        armServo1.cutPower();
+        armServo2.cutPower();
+    }
+
     public double addons(double value) {
         if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
         return value;

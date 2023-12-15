@@ -107,6 +107,10 @@ public class Motor {
         motor.setPower(power);
     }
 
+    public double getPower() {
+        return motor.getPower();
+    }
+
     boolean hold = false;
     double gravityCounter = 0.1;
 

@@ -61,6 +61,10 @@ public class Servo {
         else return 0;
     }
 
+    public void cutPower() {
+        servo.getController().close();
+    }
+
     public void setReversed(boolean isReversed) {
         this.isReversed = isReversed;
     }

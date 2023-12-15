@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.drivers;
 
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.REST_POWER;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SLIDES_SPEED;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
+import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Motor;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
-import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Motor;
 
 
 
@@ -65,58 +65,76 @@ public class LiftDriver {
 
     LiftPositions state = LiftPositions.START;
 
-    public void setTargetPosition(int position) {
-        liftMotor.setTargetPosition(position);
-        liftMotor2.setTargetPosition(position);
-    }
-
-    public void setPower(double power) {
-        liftMotor.setPower(power);
-        liftMotor2.setPower(power);
-    }
-
-    public void run()
-    {
+    public void run() {
         resetButton.updateButton(gamepad.b);
         liftUpButton.updateButton(gamepad.dpad_up);
         liftDownButton.updateButton(gamepad.dpad_down);
 
-        if (liftUpButton.shortPress()) {
-            setPower(SLIDES_SPEED);
+        if (resetButton.longPress()) {
+            liftMotor.setTargetPosition(0);
+            liftMotor2.setTargetPosition(0);
+        }else if (liftUpButton.toggle()) {
             liftMotor.setTargetPosition(liftMotor.motor.getCurrentPosition());
             liftMotor2.setTargetPosition(liftMotor2.motor.getCurrentPosition());
-        } else if (liftDownButton.shortPress()) {
-            setPower(-SLIDES_SPEED);
+            if (currentState > 1)
+                currentState--;
+        } else if (liftDownButton.toggle()) {
             liftMotor.setTargetPosition(liftMotor.motor.getCurrentPosition());
             liftMotor2.setTargetPosition(liftMotor2.motor.getCurrentPosition());
+            if (currentState < 1)
+                currentState++;
         }
 
-        switch (toggleStates) {
+        switch (currentState) {
+            case 0:
+                state = LiftPositions.START;
+                break;
             case 1:
                 state = LiftPositions.INITIAL;
                 break;
             case 2:
                 state = LiftPositions.TOP;
                 break;
-            default:
-                state = LiftPositions.START;
-                break;
         }
 
-        if (liftDownButton.press())
-                liftMotor.setPower(-0.7);
-        else if (liftUpButton.press())
-                liftMotor.setPower(0.9);
-            else
-                liftMotor.setPower(REST_POWER);
-            liftMotor.setTargetPosition(liftMotor.motor.getCurrentPosition());
-        }
+        setPower(state.speed);
+        setTargetPosition(state.position);
+        updatePosition();
+    }
 
-//        if (resetButton.longPress()) {
-//
-//
+    private void updatePosition() {
+        liftMotor.updatePosition();
+        liftMotor2.updatePosition();
+    }
 
-//    public void resetLift() {
-//        setTargetPosition.
-//    }
+    public void setTargetPosition(double position) {
+        liftMotor.setTargetPosition(position);
+        liftMotor2.setTargetPosition(position);
+    }
+
+    public void setPower(double power) {
+        liftMotor.setPower(power);
+        liftMotor2.setPower(-power);
+    }
+
+    public void showInfo(Telemetry telemetry) {
+        telemetry.addData("Lift State: ", state);
+        telemetry.addData("Motor Mode: ", liftMotor.motor.getMode());
+
+        resetButton.updateButton(gamepad.b);
+        liftUpButton.updateButton(gamepad.dpad_up);
+        liftDownButton.updateButton(gamepad.dpad_down);
+
+        telemetry.addData("Lift TargetPos: ", liftMotor.targetPosition);
+        telemetry.addData("Lift Current Position: ", liftMotor.currentPosition);
+
+        telemetry.addData("Motor Power: ", liftMotor.motor.getPower());
+        telemetry.addData("Motor Direction: ", liftMotor.motor.getDirection());
+        telemetry.addData("Lift Encoder: ", liftMotor.motor.getCurrentPosition());
+        telemetry.addData("Motor Vel: ", liftMotor.motor.getVelocity());
+        telemetry.addData("PID Pow: ", liftMotor.getPower());
+
+        telemetry.addData("Position Tolerance: ", tolerance);
+        telemetry.addData("Motor Direction: ", liftMotor.direction);
+    }
 }
