@@ -24,7 +24,6 @@ public class IceDrivingOp extends LinearOpMode {
     TrackDrive trackDrive;
     ServoDriver servoDriver;
     Gamepad gamepad;
-    int xval=0,aval=0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -53,15 +52,11 @@ public class IceDrivingOp extends LinearOpMode {
             intakeButton.updateButton(gamepad.dpad_up);
             intakeButton.shortPress();
 
-            robot.servos.intake(!intakeButton.getShortToggle());
             double clawPosition = gamepad.left_bumper && gamepad.right_bumper ? 0 : gamepad.right_bumper ? 1 : gamepad.left_bumper ? -1 : 0;
             robot.servos.claw(clawPosition);
-            telemetry.addData("Claw Position", robot.clawServo.getPosition());
-
+//            robot.servos.intakeOpen(!intakeButton.getShortToggle());
             robot.servos.arm(gamepad.right_trigger - gamepad.left_trigger);
-            robot.servos.claw(clawPosition);
-            telemetry.addData("Arm 1 Position", robot.armServo1.getPosition());
-            telemetry.addData("Arm 2 Position", robot.armServo2.getPosition());
+
             trackDrive.setReverse(reverseButton.getLongToggle());
             trackDrive.run();
 

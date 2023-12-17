@@ -37,7 +37,7 @@ public class MainDrivingOp extends LinearOpMode {
         robotCentricDrive = new RobotCentricDrive(robot, drivingGamepad);
         fieldCentricDrive = new FieldCentricDrive(robot, drivingGamepad);
         liftDriver = new LiftDriver(hardwareMap, utilityGamepad);
-        liftDriver.init();
+        liftDriver.init(false, false);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -48,6 +48,8 @@ public class MainDrivingOp extends LinearOpMode {
 
         Button driveModeButton = new Button();
         Button reverseButton = new Button();
+        Button intakeOpenButton = new Button();
+//        Button intakeCloseButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.x);
@@ -56,7 +58,25 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.b);
             reverseButton.shortPress();
 
+            intakeOpenButton.updateButton(utilityGamepad.dpad_up);
+            intakeOpenButton.shortPress();
+
+//            intakeCloseButton.updateButton(utilityGamepad.dpad_down);
+//            intakeCloseButton.shortPress();
+
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
+
+            robot.servos.arm(utilityGamepad.left_bumper && utilityGamepad.right_bumper ? 0 : utilityGamepad.right_bumper ? -1 : utilityGamepad.left_bumper ? 1 : 0);
+            robot.servos.intake(intakeOpenButton.getShortToggle());
+
+//            if (intakeOpenButton.getShortToggle()) {
+//                robot.servos.intakeOpen();
+//                intakeOpenButton.resetToggles();
+//            }
+//            if (intakeCloseButton.getShortToggle()) {
+//                robot.servos.intakeClose();
+//                intakeCloseButton.resetToggles();
+//            }
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
@@ -65,7 +85,8 @@ public class MainDrivingOp extends LinearOpMode {
                 fieldCentricDrive.run();
                 fieldCentricDrive.telemetry(telemetry);
             }
-            liftDriver.run();
+
+            liftDriver.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
             telemetry.update();
         }
     }

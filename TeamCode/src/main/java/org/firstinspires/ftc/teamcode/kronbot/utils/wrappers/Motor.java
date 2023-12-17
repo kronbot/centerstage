@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.wrappers;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
+import org.firstinspires.ftc.teamcode.kronbot.utils.pid.PIDCoefficients;
+import org.firstinspires.ftc.teamcode.kronbot.utils.pid.PIDFController;
 
 /**
  * A wrapper for a DC motor with encoder
@@ -24,7 +25,7 @@ public class Motor {
         this.hardwareMap = hardwareMap;
     }
 
-    public void init(String name, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes, boolean reset) {
+    public void init(String name, boolean isReversed, boolean velocityPIDFMode, boolean positionPIDMode, boolean brakes, boolean reset, boolean encoder) {
         motor = hardwareMap.get(DcMotorEx.class, name);
         if (reset)
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -33,22 +34,26 @@ public class Motor {
         this.setDirection(isReversed);
         this.setPositionPIDMode(positionPIDMode);
         this.setVelocityPIDFMode(velocityPIDFMode);
+
+        if (encoder) {
         motor.setTargetPosition(0);
         motor.setTargetPositionTolerance(10);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         this.setBrakes(brakes);
     }
 
-    com.acmerobotics.roadrunner.control.PIDCoefficients coeffs = new PIDCoefficients(8, 3, 0);
-    PIDFController controller = new PIDFController(coeffs, 0, 0);
+    PIDCoefficients coeffs = new PIDCoefficients(8, 3, 0);
+    PIDFController controller = new PIDFController(coeffs);
 
     public void updatePosition() {
         controller.setTargetPosition(targetPosition);
 
         if (motor.isBusy())
-            motor.setPower(1);
-        else
-            motor.setPower(0.1);
+            motor.setPower(Constants.SLIDES_SPEED);
+//        else
+//            motor.setPower(0.1);
     }
 
     boolean voltageCompensated = false;
@@ -59,7 +64,7 @@ public class Motor {
     }
 
     public void resetPID() {
-        PIDFController posController = new PIDFController(coeffs, 0, 0);
+        PIDFController posController = new PIDFController(coeffs);
     }
 
     boolean positionPIDMode = false;
@@ -97,6 +102,10 @@ public class Motor {
             return 1;
         else
             return -1;
+    }
+
+    public void setMode(DcMotor.RunMode mode) {
+        motor.setMode(mode);
     }
 
     public boolean isBusy() {

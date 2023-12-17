@@ -3,15 +3,19 @@ package org.firstinspires.ftc.teamcode.kronbot.utils.drivers;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.SLIDES_SPEED;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Motor;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 
-public class LiftDriver {
+public class
+
+LiftDriver {
     double kP = 0.005, kI = 0, kD = 0.0001;
     Gamepad gamepad;
     HardwareMap hardwareMap;
@@ -25,38 +29,39 @@ public class LiftDriver {
         this.hardwareMap = hardwareMap;
     }
 
-    public void init() {
+    public void init(boolean pid, boolean encoder) {
         liftMotor = new Motor(hardwareMap);
-        liftMotor.init("liftMotor", false, false, true, false, true);
-        liftMotor.holdMode(true);
-        liftMotor.setTolerance(tolerance);
-        liftMotor.setPositionPID(kP, kI, kD);
+        liftMotor.init("liftMotor", false, pid, true, true, true, encoder);
+        if (pid) {
+            liftMotor.holdMode(true);
+            liftMotor.setTolerance(tolerance);
+            liftMotor.setPositionPID(kP, kI, kD);
+        }
 
         liftMotor2 = new Motor(hardwareMap);
-        liftMotor2.init("liftMotor2", true, false, true, false, true);
-        liftMotor2.holdMode(true);
-        liftMotor2.setTolerance(tolerance);
-        liftMotor2.setPositionPID(kP, kI, kD);
-
-        setPower(SLIDES_SPEED);
+        liftMotor2.init("liftMotor2", true, pid, true, true, true, encoder);
+        if (pid) {
+            liftMotor2.holdMode(true);
+            liftMotor2.setTolerance(tolerance);
+            liftMotor2.setPositionPID(kP, kI, kD);
+        }
     }
 
     public enum LiftPositions {
-        START(0, 0.85, 0),
-        INITIAL(125, 0.85, 0),
-        TOP(2000, 0.85, 0);
+        START(0, 0.85),
+        INITIAL(500, 0.85);
 
         public double position = 0;
         public double speed = 0;
-        public double axlePos = 0;
 
-        LiftPositions(double value, double speed, double axlePos) {
+        LiftPositions(double value, double speed) {
             this.position = value;
             this.speed = speed;
-            this.axlePos = axlePos;
         }
     }
-    int toggleStates = 0;
+
+    boolean manualMode = false;
+
     Button resetButton = new Button();
     Button liftUpButton = new Button();
     Button liftDownButton = new Button();
@@ -70,19 +75,23 @@ public class LiftDriver {
         liftUpButton.updateButton(gamepad.dpad_up);
         liftDownButton.updateButton(gamepad.dpad_down);
 
-        if (resetButton.longPress()) {
-            liftMotor.setTargetPosition(0);
-            liftMotor2.setTargetPosition(0);
-        }else if (liftUpButton.toggle()) {
-            liftMotor.setTargetPosition(liftMotor.motor.getCurrentPosition());
-            liftMotor2.setTargetPosition(liftMotor2.motor.getCurrentPosition());
+        if (resetButton.shortPress()) {
+            manualMode = false;
+            currentState = 0;
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (liftUpButton.shortPress()) {
+            manualMode = false;
             if (currentState > 1)
                 currentState--;
-        } else if (liftDownButton.toggle()) {
-            liftMotor.setTargetPosition(liftMotor.motor.getCurrentPosition());
-            liftMotor2.setTargetPosition(liftMotor2.motor.getCurrentPosition());
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (liftDownButton.shortPress()) {
+            manualMode = false;
             if (currentState < 1)
                 currentState++;
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
         switch (currentState) {
@@ -92,14 +101,43 @@ public class LiftDriver {
             case 1:
                 state = LiftPositions.INITIAL;
                 break;
-            case 2:
-                state = LiftPositions.TOP;
-                break;
         }
 
-        setPower(state.speed);
-        setTargetPosition(state.position);
-        updatePosition();
+        if (liftMotor.targetPosition >= liftMotor.currentPosition - tolerance) {
+            if (!manualMode) {
+                    manualMode = true;
+                    liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    liftMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                }
+        } else {
+            if (manualMode) {
+                manualMode = false;
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+        }
+
+        if (manualMode) {
+            setPower(gamepad.right_trigger - gamepad.left_trigger);
+        } else {
+            setPower(state.speed);
+            setTargetPosition(state.position);
+            updatePosition();
+        }
+    }
+
+    public void testSlide() {
+        if (gamepad.dpad_up)
+            setPower(0.5);
+        else if (gamepad.dpad_down)
+            setPower(-0.5);
+        else
+            setPower(0);
+    }
+
+    public void run(double power) {
+        if (power == 0) setPower(Constants.REST_POWER);
+        else setPower(power);
     }
 
     private void updatePosition() {
@@ -114,7 +152,7 @@ public class LiftDriver {
 
     public void setPower(double power) {
         liftMotor.setPower(power);
-        liftMotor2.setPower(-power);
+        liftMotor2.setPower(power);
     }
 
     public void showInfo(Telemetry telemetry) {

@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 
 import java.util.List;
 
-@Autonomous(name = "Test Game Element", group = Constants.TEST_GROUP)
-public class TestGameElement extends LinearOpMode {
+@Autonomous(name = "Detection Autonomy", group = Constants.MAIN_GROUP)
+public class DetectionAutonomy extends LinearOpMode {
     private final KronBot robot = new KronBot();
     private final GameElementDetection gameElementDetection = new GameElementDetection();
 
@@ -20,10 +20,30 @@ public class TestGameElement extends LinearOpMode {
         robot.init(hardwareMap);
         gameElementDetection.init(hardwareMap);
 
+        int state;
+
         while (!isStopRequested() && !opModeIsActive()) {
             gameElementDetection.detect();
             gameElementDetection.telemetry(telemetry);
+
+            List<Recognition> gameElementRecognition = gameElementDetection.getGameElement();
+
+            if (gameElementRecognition.size() > 0) {
+                Recognition recognition = gameElementRecognition.get(0);
+                double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+                double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+                if (x < 320) state = 1;
+                else state = 2;
+            } else state = 0;
+
+            telemetry.addData("State", state);
+
             telemetry.update();
+        }
+
+        while (opModeIsActive()) {
+
         }
 
         gameElementDetection.close();

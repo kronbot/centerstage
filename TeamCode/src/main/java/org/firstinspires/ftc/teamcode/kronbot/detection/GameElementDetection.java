@@ -11,11 +11,11 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 public class GameElementDetection {
-    private static final String TFOD_MODEL_FILE = "model.tflite";
+    private static final String TFOD_MODEL_FILE = "GameElement.tflite";
 
     private static final String[] LABELS = {
-            "RedElement",
-            "BlueElement"
+            "Red",
+            "Blue"
     };
 
     TfodProcessor tfod;
@@ -28,12 +28,6 @@ public class GameElementDetection {
             .setModelFileName(TFOD_MODEL_FILE)
             .setModelLabels(LABELS).build();
 
-//        visionPortal = new VisionPortal.Builder()
-//            .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-//            .setCameraResolution(new Size(640, 480))
-//            .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-//            .setAutoStopLiveView(false)
-//            .addProcessor(tfod).build();
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
     }
 
