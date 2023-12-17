@@ -22,6 +22,11 @@ public class KronBot {
     public Servo clawServo;
     public Servo intakeServo;
 
+    public Servo planeServo;
+    DcMotorEx leftRear;
+    DcMotorEx rightRear;
+    DcMotorEx leftFront;
+    DcMotorEx rightFront;
     public void init(HardwareMap hardwareMap) {
         intakeServo = new Servo(hardwareMap);
         intakeServo.init("intake", false, true);
@@ -33,17 +38,19 @@ public class KronBot {
         armServo1.init("arm", false, true);
         armServo2 = new Servo(hardwareMap);
         armServo2.init("arm2", false, true);
+        planeServo =new Servo(hardwareMap);
+        planeServo.init("planeservo",false,false);
 
         servos = new ServoDriver();
         armServo1.setPosition(Constants.ARM1_INIT_POS);
         armServo2.setPosition(Constants.ARM2_INIT_POS);
-        servos.init(armServo1, armServo2, intakeServo, clawServo);
+        servos.init(armServo1, armServo2, intakeServo, clawServo,planeServo);
         servos.intakeClose();
 
-        DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         BHI260IMU imu = hardwareMap.get(BHI260IMU.class, "imu");
 
@@ -54,5 +61,13 @@ public class KronBot {
         gyroscope.init(imu);
 
         clawServo.setPosition(Constants.CLAW_INIT_POS);
+
+    }
+    public void drive(double frontLeft, double frontRight, double backLeft, double backRight, double power)
+    {
+        leftFront.setPower(-frontLeft * power);
+        rightFront.setPower(frontRight * power);
+        leftRear.setPower(-backLeft * power);
+        rightRear.setPower(backRight * power);
     }
 }

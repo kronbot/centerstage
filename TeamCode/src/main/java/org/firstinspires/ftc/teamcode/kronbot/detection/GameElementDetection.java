@@ -10,7 +10,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-public class GameElementDetection {
+public class    GameElementDetection {
     private static final String TFOD_MODEL_FILE = "GameElement.tflite";
 
     private static final String[] LABELS = {

@@ -19,10 +19,8 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 @TeleOp(name = "Main Driving", group = Constants.MAIN_GROUP)
 public class MainDrivingOp extends LinearOpMode {
     private final KronBot robot = new KronBot();
-
     RobotCentricDrive robotCentricDrive;
     FieldCentricDrive fieldCentricDrive;
-
     LiftDriver liftDriver;
     Gamepad drivingGamepad;
     Gamepad utilityGamepad;
@@ -49,6 +47,7 @@ public class MainDrivingOp extends LinearOpMode {
         Button driveModeButton = new Button();
         Button reverseButton = new Button();
         Button intakeOpenButton = new Button();
+        Button planeButton=new Button();
 //        Button intakeCloseButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -58,8 +57,11 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.b);
             reverseButton.shortPress();
 
-            intakeOpenButton.updateButton(utilityGamepad.dpad_up);
+            intakeOpenButton.updateButton(utilityGamepad.x);
             intakeOpenButton.shortPress();
+
+            planeButton.updateButton(drivingGamepad.a);
+            planeButton.longPress();
 
 //            intakeCloseButton.updateButton(utilityGamepad.dpad_down);
 //            intakeCloseButton.shortPress();
@@ -67,17 +69,10 @@ public class MainDrivingOp extends LinearOpMode {
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
             robot.servos.arm(utilityGamepad.left_bumper && utilityGamepad.right_bumper ? 0 : utilityGamepad.right_bumper ? -1 : utilityGamepad.left_bumper ? 1 : 0);
-            robot.servos.intake(intakeOpenButton.getShortToggle());
-
-//            if (intakeOpenButton.getShortToggle()) {
-//                robot.servos.intakeOpen();
-//                intakeOpenButton.resetToggles();
-//            }
-//            if (intakeCloseButton.getShortToggle()) {
-//                robot.servos.intakeClose();
-//                intakeCloseButton.resetToggles();
-//            }
-
+            double clawPosition = utilityGamepad.b && utilityGamepad.a ? 0 : utilityGamepad.a ? 1 : utilityGamepad.b ? -1 : 0;
+            robot.servos.claw(clawPosition);
+            double intakePosition = utilityGamepad.dpad_up && utilityGamepad.dpad_down ? 0 : utilityGamepad.dpad_down ? 1 : utilityGamepad.dpad_up ? -1 : 0;
+            robot.servos.intake(intakePosition);
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
                 robotCentricDrive.telemetry(telemetry);

@@ -13,34 +13,55 @@ public class ServoDriver {
     Servo armServo1;
     Servo armServo2;
     Servo clawServo;
+    Servo planeServo;
 
-    public void init(Servo armServo1, Servo armServo2,  Servo intakeServo, Servo clawServo) {
+    public void init(Servo armServo1, Servo armServo2,  Servo intakeServo, Servo clawServo, Servo planeServo) {
         armServo1.setPWMRange(500, 2500);
         armServo2.setPWMRange(500, 2500);
         clawServo.setPWMRange(500, 2500);
         intakeServo.setPWMRange(500, 2500);
+        planeServo.setPWMRange(500,2500);
 
         this.intakeServo = intakeServo;
         this.armServo1 = armServo1;
         this.armServo2 = armServo2;
         this.clawServo = clawServo;
+        this.planeServo = planeServo;
     }
 
-    public void intakeOpen() {
-        if (intakeServo.getPosition() == INTAKE_FIRST_OPEN_POS)
-            intakeServo.setPosition(INTAKE_SECOND_OPEN_POS);
-        else if (intakeServo.getPosition() == INTAKE_CLOSED_POS)
-            intakeServo.setPosition(INTAKE_FIRST_OPEN_POS);
-    }
+//    public void intakeOpen() {
+//        if (intakeServo.getPosition() == INTAKE_FIRST_OPEN_POS)
+//            intakeServo.setPosition(INTAKE_SECOND_OPEN_POS);
+//        else if (intakeServo.getPosition() == INTAKE_CLOSED_POS)
+//            intakeServo.setPosition(INTAKE_FIRST_OPEN_POS);
+//    }
 
     public void intakeClose() {
         intakeServo.setPosition(INTAKE_CLOSED_POS);
     }
-
-    public void intake(boolean position) {
-        if (position) intakeServo.setPosition(INTAKE_SECOND_OPEN_POS);
-        else intakeServo.setPosition(INTAKE_CLOSED_POS);
+    public void intakeOpen() {
+        intakeServo.setPosition(INTAKE_FIRST_OPEN_POS);
     }
+//    public void intake(boolean open, boolean close) {
+//        if (open)
+//            intakeServo.setPosition(0);
+//        else if (close)
+//            intakeServo.setPosition(1);
+//    }
+    public void intake(double position)
+    {
+        position = addons(position);
+        if (position == 0) return;
+        if (position > 0 && intakeServo.getPosition() < 0.99 || position < 0 && intakeServo.getPosition() > 0.01)
+            intakeServo.setPosition(clawServo.getPosition() + 0.001 * position);
+    }
+
+//    public void plane(boolean position) {
+//        if (position)
+//            intakeServo.setPosition(0);
+//        else
+//            intakeServo.setPosition(1);
+//    }
 
     public void claw(double position) {
         position = addons(position);
@@ -57,12 +78,6 @@ public class ServoDriver {
             armServo1.setPosition(armServo1.getPosition() + Constants.SERVO_SPEED * position);
         if (position > 0 && armServo2.getPosition() > 0.15 || position < 0 && armServo2.getPosition() < 0.9)
             armServo2.setPosition(armServo2.getPosition() - Constants.SERVO_SPEED * position);
-
-        if (getArmAngle() < 120)
-            clawServo.setPosition(getClawPosition(90 - getArmAngle()));
-        else if (getArmAngle() >= 270)
-            clawServo.setPosition(getClawPosition(360 - getArmAngle() + 60));
-        else clawServo.setPosition(0.1);
     }
 
     private double getArmAngle() {
