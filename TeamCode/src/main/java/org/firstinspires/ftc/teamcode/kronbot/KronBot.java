@@ -21,12 +21,13 @@ public class KronBot {
     public Servo armServo2;
     public Servo clawServo;
     public Servo intakeServo;
-
     public Servo planeServo;
+
     DcMotorEx leftRear;
     DcMotorEx rightRear;
     DcMotorEx leftFront;
     DcMotorEx rightFront;
+
     public void init(HardwareMap hardwareMap) {
         intakeServo = new Servo(hardwareMap);
         intakeServo.init("intake", false, true);

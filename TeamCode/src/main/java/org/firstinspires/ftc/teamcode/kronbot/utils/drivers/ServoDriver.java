@@ -42,18 +42,10 @@ public class ServoDriver {
     public void intakeOpen() {
         intakeServo.setPosition(INTAKE_FIRST_OPEN_POS);
     }
-//    public void intake(boolean open, boolean close) {
-//        if (open)
-//            intakeServo.setPosition(0);
-//        else if (close)
-//            intakeServo.setPosition(1);
-//    }
-    public void intake(double position)
-    {
-        position = addons(position);
-        if (position == 0) return;
-        if (position > 0 && intakeServo.getPosition() < 0.99 || position < 0 && intakeServo.getPosition() > 0.01)
-            intakeServo.setPosition(clawServo.getPosition() + 0.001 * position);
+
+    public void intake(boolean position) {
+        if (position) intakeServo.setPosition(INTAKE_SECOND_OPEN_POS);
+        else intakeServo.setPosition(INTAKE_CLOSED_POS);
     }
 
 //    public void plane(boolean position) {

@@ -46,9 +46,8 @@ public class MainDrivingOp extends LinearOpMode {
 
         Button driveModeButton = new Button();
         Button reverseButton = new Button();
-        Button intakeOpenButton = new Button();
+        Button intakeButton = new Button();
         Button planeButton=new Button();
-//        Button intakeCloseButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.x);
@@ -57,22 +56,19 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.b);
             reverseButton.shortPress();
 
-            intakeOpenButton.updateButton(utilityGamepad.x);
-            intakeOpenButton.shortPress();
+            intakeButton.updateButton(utilityGamepad.x);
+            intakeButton.shortPress();
 
             planeButton.updateButton(drivingGamepad.a);
             planeButton.longPress();
-
-//            intakeCloseButton.updateButton(utilityGamepad.dpad_down);
-//            intakeCloseButton.shortPress();
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
             robot.servos.arm(utilityGamepad.left_bumper && utilityGamepad.right_bumper ? 0 : utilityGamepad.right_bumper ? -1 : utilityGamepad.left_bumper ? 1 : 0);
             double clawPosition = utilityGamepad.b && utilityGamepad.a ? 0 : utilityGamepad.a ? 1 : utilityGamepad.b ? -1 : 0;
             robot.servos.claw(clawPosition);
-            double intakePosition = utilityGamepad.dpad_up && utilityGamepad.dpad_down ? 0 : utilityGamepad.dpad_down ? 1 : utilityGamepad.dpad_up ? -1 : 0;
-            robot.servos.intake(intakePosition);
+            robot.servos.intake(intakeButton.getShortToggle());
+
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
                 robotCentricDrive.telemetry(telemetry);
