@@ -46,7 +46,7 @@ public class KronBot {
         armServo1.setPosition(Constants.ARM1_INIT_POS);
         armServo2.setPosition(Constants.ARM2_INIT_POS);
         servos.init(armServo1, armServo2, intakeServo, clawServo,planeServo);
-        servos.intakeClose();
+        servos.intake(false);
 
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");

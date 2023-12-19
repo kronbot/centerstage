@@ -20,8 +20,8 @@ public class Constants {
 
     public static double SERVO_SPEED = 0.001;
 
-    public static double ARM1_INIT_POS = 0.5;
-    public static double ARM2_INIT_POS = 0.5;
+    public static double ARM1_INIT_POS = 0.7;
+    public static double ARM2_INIT_POS = 0.3;
     public static double CLAW_INIT_POS = 0.26;
 
     public static double INTAKE_CLOSED_POS = 0;

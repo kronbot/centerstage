@@ -56,7 +56,7 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.b);
             reverseButton.shortPress();
 
-            intakeButton.updateButton(utilityGamepad.x);
+            intakeButton.updateButton(utilityGamepad.dpad_up);
             intakeButton.shortPress();
 
             planeButton.updateButton(drivingGamepad.a);
