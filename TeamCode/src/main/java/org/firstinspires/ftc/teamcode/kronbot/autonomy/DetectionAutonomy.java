@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.kronbot.autonomy;
 import static java.lang.Double.max;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,12 +19,13 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
+
 @Autonomous(name = "Detection Autonomy", group = Constants.MAIN_GROUP)
+@Disabled
 public class DetectionAutonomy extends LinearOpMode {
     //OpenCvCamera camera;
     private final KronBot robot = new KronBot();
     ElapsedTime timer=new ElapsedTime();
-    public ServoDriver servos;
     private final GameElementDetection gameElementDetection = new GameElementDetection();
     double acc=0.55;
     double speed=0.60;
@@ -82,16 +84,16 @@ public class DetectionAutonomy extends LinearOpMode {
         timer.reset();
         while (timer.seconds() < runTime - runTime / 4) {
             acc = max(acc - add, 0);
-            robot.drive(fl, fr, bl, br, power - acc);
+            robot.motors.drive(fl, fr, bl, br, power - acc);
             if (!opModeIsActive())
                 return;
         }
         while (timer.seconds() < runTime) {
             acc = Math.min(power - 0.2, acc + add);
-            robot.drive(fl, fr, bl, br, power - acc);
+            robot.motors.drive(fl, fr, bl, br, power - acc);
             if (!opModeIsActive())
                 return;
         }
-        robot.drive(fl, fr, bl, br, 0);
+        robot.motors.drive(fl, fr, bl, br, 0);
     }
 }

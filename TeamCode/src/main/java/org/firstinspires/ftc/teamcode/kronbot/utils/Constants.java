@@ -22,12 +22,12 @@ public class Constants {
 
     public static double ARM1_INIT_POS = 0.7;
     public static double ARM2_INIT_POS = 0.3;
-    public static double CLAW_INIT_POS = 0.26;
 
-    public static double INTAKE_CLOSED_POS = 0;
-    public static double INTAKE_FIRST_OPEN_POS = 0.6;
-    public static double INTAKE_SECOND_OPEN_POS = 1;
-    public static double INTAKE_STEPS = 0.035;
+    public static double INTAKE_POWER = 1.0;
+    public static double HOOK_POWER = 1.0;
 
-    public static double ARM_TRASHHOLD_90_DEGREES = 0.7;
+    public static double LIFT_TOLERANCE = 50;
+    public static int LIFT_INIT_POSITION = 1000;
+    public static int LIFT_MAX_POSITION = 2600;
+    public static double LIFT_REVERSE_CONSTANT = 0.75;
 }

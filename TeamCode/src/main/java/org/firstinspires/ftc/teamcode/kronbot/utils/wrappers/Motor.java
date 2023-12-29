@@ -35,11 +35,8 @@ public class Motor {
         this.setPositionPIDMode(positionPIDMode);
         this.setVelocityPIDFMode(velocityPIDFMode);
 
-        if (encoder) {
-        motor.setTargetPosition(0);
-        motor.setTargetPositionTolerance(10);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if (!encoder)
+            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         this.setBrakes(brakes);
     }
@@ -48,7 +45,7 @@ public class Motor {
     PIDFController controller = new PIDFController(coeffs);
 
     public void updatePosition() {
-        controller.setTargetPosition(targetPosition);
+        controller.setTargetPosition(motor.getTargetPosition());
 
         if (motor.isBusy())
             motor.setPower(Constants.SLIDES_SPEED);
@@ -82,11 +79,8 @@ public class Motor {
         positionPID = new ControllerPID(kP, kI, kD);
     }
 
-    public double targetPosition = 0;
-    public double currentPosition = 0;
-
-    public void setTargetPosition(double targetPosition) {
-        this.targetPosition = targetPosition;
+    public void setTargetPosition(int targetPosition) {
+        motor.setTargetPosition(targetPosition);
     }
 
     double tolerance = 0;
@@ -98,7 +92,7 @@ public class Motor {
     public double direction = -1;
 
     double getDirection() {
-        if (currentPosition <= targetPosition)
+        if (motor.getCurrentPosition() <= motor.getTargetPosition())
             return 1;
         else
             return -1;
@@ -109,7 +103,7 @@ public class Motor {
     }
 
     public boolean isBusy() {
-        return (Math.abs(targetPosition - currentPosition) > tolerance);
+        return (Math.abs(motor.getTargetPosition() - motor.getCurrentPosition()) > tolerance);
     }
 
     public void setPower(double power) {
@@ -163,5 +157,13 @@ public class Motor {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         else
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+
+    public int getCurrentPosition() {
+        return motor.getCurrentPosition();
+    }
+
+    public int getTargetPosition() {
+        return motor.getTargetPosition();
     }
 }

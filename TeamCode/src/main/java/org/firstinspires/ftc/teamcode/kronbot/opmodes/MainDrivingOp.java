@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.LIFT_INIT_POSITION;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -21,7 +23,6 @@ public class MainDrivingOp extends LinearOpMode {
     private final KronBot robot = new KronBot();
     RobotCentricDrive robotCentricDrive;
     FieldCentricDrive fieldCentricDrive;
-    LiftDriver liftDriver;
     Gamepad drivingGamepad;
     Gamepad utilityGamepad;
 
@@ -34,8 +35,6 @@ public class MainDrivingOp extends LinearOpMode {
 
         robotCentricDrive = new RobotCentricDrive(robot, drivingGamepad);
         fieldCentricDrive = new FieldCentricDrive(robot, drivingGamepad);
-        liftDriver = new LiftDriver(hardwareMap, utilityGamepad);
-        liftDriver.init(false, false);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -46,8 +45,7 @@ public class MainDrivingOp extends LinearOpMode {
 
         Button driveModeButton = new Button();
         Button reverseButton = new Button();
-        Button intakeButton = new Button();
-        Button planeButton=new Button();
+        Button hookButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.x);
@@ -56,18 +54,22 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.b);
             reverseButton.shortPress();
 
-            intakeButton.updateButton(utilityGamepad.dpad_up);
-            intakeButton.shortPress();
-
-            planeButton.updateButton(drivingGamepad.a);
-            planeButton.longPress();
+            hookButton.updateButton(utilityGamepad.a);
+            hookButton.longPress();
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
-            robot.servos.arm(utilityGamepad.left_bumper && utilityGamepad.right_bumper ? 0 : utilityGamepad.right_bumper ? -1 : utilityGamepad.left_bumper ? 1 : 0);
-            double clawPosition = utilityGamepad.b && utilityGamepad.a ? 0 : utilityGamepad.a ? 1 : utilityGamepad.b ? -1 : 0;
-            robot.servos.claw(clawPosition);
-            robot.servos.intake(intakeButton.getShortToggle());
+            robot.servos.hook(hookButton.getLongToggle());
+
+            robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
+
+            robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
+
+            robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
+            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION)
+                robot.servos.arm(true);
+            else
+                robot.servos.arm(false);
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
@@ -77,7 +79,8 @@ public class MainDrivingOp extends LinearOpMode {
                 fieldCentricDrive.telemetry(telemetry);
             }
 
-            liftDriver.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
+            //robot.lift.showInfo(telemetry);
+
             telemetry.update();
         }
     }

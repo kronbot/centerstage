@@ -33,4 +33,11 @@ public class MotorDriver {
         leftRear.setDirection(DcMotorEx.Direction.REVERSE);
         leftFront.setDirection(DcMotorEx.Direction.REVERSE);
     }
+
+    public void drive(double frontLeft, double frontRight, double backLeft, double backRight, double power) {
+        leftFront.setPower(-frontLeft * power);
+        rightFront.setPower(frontRight * power);
+        leftRear.setPower(-backLeft * power);
+        rightRear.setPower(backRight * power);
+    }
 }

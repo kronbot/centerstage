@@ -20,14 +20,10 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 public class SliderTestOp extends LinearOpMode {
     private final KronBot robot = new KronBot();
 
-    LiftDriver liftDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-
-        liftDriver = new LiftDriver(hardwareMap, gamepad1);
-        liftDriver.init(false, false);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -37,8 +33,8 @@ public class SliderTestOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive() && !isStopRequested()) {
-            liftDriver.testSlide();
-            liftDriver.showInfo(telemetry);
+            robot.lift.run(gamepad2.right_trigger - gamepad2.left_trigger);
+            robot.lift.showInfo(telemetry);
 
             telemetry.update();
         }
