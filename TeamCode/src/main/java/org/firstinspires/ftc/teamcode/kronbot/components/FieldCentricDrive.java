@@ -19,9 +19,9 @@ public class FieldCentricDrive {
     KronBot robot;
     Gamepad gamepad;
 
-
     double rotatedX = 0;
     double rotatedY = 0;
+
 
     public FieldCentricDrive(KronBot robot, Gamepad gamepad) {
         this.robot = robot;
