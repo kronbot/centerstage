@@ -46,7 +46,7 @@ public class IceDrivingOp extends LinearOpMode {
         Button intakeButton = new Button();
 
         while(!isStopRequested() && opModeIsActive()) {
-            reverseButton.updateButton(gamepad.b);
+            reverseButton.updateButton(gamepad.circle);
             reverseButton.longPress();
 
             intakeButton.updateButton(gamepad.dpad_up);

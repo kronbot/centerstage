@@ -48,13 +48,13 @@ public class MainDrivingOp extends LinearOpMode {
         Button hookButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
-            driveModeButton.updateButton(drivingGamepad.x);
+            driveModeButton.updateButton(drivingGamepad.square);
             driveModeButton.longPress();
 
-            reverseButton.updateButton(drivingGamepad.b);
+            reverseButton.updateButton(drivingGamepad.circle);
             reverseButton.shortPress();
 
-            hookButton.updateButton(utilityGamepad.a);
+            hookButton.updateButton(utilityGamepad.cross);
             hookButton.longPress();
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
