@@ -24,7 +24,9 @@ public class TestAutonomy extends LinearOpMode {
 //            .forward(55.6)
 //            .build();
 
-        while (!isStopRequested() && !opModeIsActive()) {
+        waitForStart();
+
+        while (!isStopRequested() && opModeIsActive()) {
             telemetry.update();
         }
 

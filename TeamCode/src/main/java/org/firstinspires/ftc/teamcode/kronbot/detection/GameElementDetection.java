@@ -43,7 +43,7 @@ public class    GameElementDetection {
         gameElementRecognition = tfod.getRecognitions();
     }
 
-    public void telemetry(Telemetry telemetry) {
+    public void showInfo(Telemetry telemetry) {
         telemetry.addData("# Objects Detected", gameElementRecognition.size());
 
         for (Recognition recognition : gameElementRecognition) {

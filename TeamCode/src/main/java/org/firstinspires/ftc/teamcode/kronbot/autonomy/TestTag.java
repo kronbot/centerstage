@@ -20,7 +20,9 @@ public class TestTag extends LinearOpMode {
         robot.init(hardwareMap);
         tagDetection.init(hardwareMap);
 
-        while (!isStopRequested() && !opModeIsActive()) {
+        waitForStart();
+
+        while (!isStopRequested() && opModeIsActive()) {
             tagDetection.detect();
             tagDetection.telemetry(telemetry);
             telemetry.update();
