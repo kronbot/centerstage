@@ -23,8 +23,9 @@ public class IntakeDriver {
     }
 
     public void drive(boolean forwardButton, boolean reverseButton) {
-        if (forwardButton)
+        if (forwardButton) {
             motor.setPower(-INTAKE_POWER);
+        }
         else if (reverseButton)
             motor.setPower(INTAKE_POWER);
         else

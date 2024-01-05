@@ -11,19 +11,22 @@ public class ServoDriver {
     Servo armServo2;
     Servo hookServo1;
     Servo hookServo2;
+    Servo intakeServo;
 
-    public void init(Servo armServo1, Servo armServo2,  Servo pixelServo, Servo hookServo1, Servo hookServo2) {
+    public void init(Servo armServo1, Servo armServo2,  Servo pixelServo, Servo hookServo1, Servo hookServo2,Servo intakeServo) {
         armServo1.setPWMRange(500, 2500);
         armServo2.setPWMRange(500, 2500);
         hookServo1.setPWMRange(500, 2500);
         pixelServo.setPWMRange(500, 2500);
         hookServo2.setPWMRange(500,2500);
+        intakeServo.setPWMRange(500,2500);
 
         this.pixelServo = pixelServo;
         this.armServo1 = armServo1;
         this.armServo2 = armServo2;
         this.hookServo1 = hookServo1;
         this.hookServo2 = hookServo2;
+        this.intakeServo = intakeServo;
     }
 
     public void arm(boolean activated) {
@@ -31,7 +34,7 @@ public class ServoDriver {
             armServo1.setPosition(0.5);
             armServo2.setPosition(0.5);
         } else {
-            armServo1.setPosition(0.7);
+            armServo1.setPosition(0.3);
             armServo2.setPosition(0.7);
         }
     }
@@ -49,6 +52,14 @@ public class ServoDriver {
             hookServo1.setPosition(0.7);
             hookServo2.setPosition(0.7);
         }
+    }
+
+    public void intake(boolean activated)
+    {
+        if(activated)
+        intakeServo.setPosition(1);
+        else
+            intakeServo.setPosition(0.5);
     }
 
     public void cutArmPower() {
