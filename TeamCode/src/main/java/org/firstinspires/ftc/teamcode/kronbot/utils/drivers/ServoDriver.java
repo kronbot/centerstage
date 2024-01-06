@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.kronbot.utils.drivers;
 
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM1_INIT_POS;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_INIT_POS;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM1_POSITION;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_POSITION;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
 
-import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 
 public class ServoDriver {
@@ -31,11 +34,11 @@ public class ServoDriver {
 
     public void arm(boolean activated) {
         if (activated) {
-            armServo1.setPosition(0.5);
-            armServo2.setPosition(0.5);
+            armServo1.setPosition(ARM1_POSITION);
+            armServo2.setPosition(ARM2_POSITION);
         } else {
-            armServo1.setPosition(0.3);
-            armServo2.setPosition(0.7);
+            armServo1.setPosition(ARM1_INIT_POS);
+            armServo2.setPosition(ARM2_INIT_POS);
         }
     }
 
@@ -54,12 +57,9 @@ public class ServoDriver {
         }
     }
 
-    public void intake(boolean activated)
-    {
-        if(activated)
-        intakeServo.setPosition(1);
-        else
-            intakeServo.setPosition(0.5);
+    public void intake(boolean activated) {
+        if(activated) intakeServo.setPosition(1);
+        else intakeServo.setPosition(0.5);
     }
 
     public void cutArmPower() {

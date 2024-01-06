@@ -20,14 +20,17 @@ public class Constants {
 
     public static double SERVO_SPEED = 0.001;
 
-    public static double ARM1_INIT_POS = 0.7;
-    public static double ARM2_INIT_POS = 0.3;
-
     public static double INTAKE_POWER = 1.0;
     public static double HOOK_POWER = 1.0;
 
     public static double LIFT_TOLERANCE = 50;
-    public static int LIFT_INIT_POSITION = 1000;
+    public static int LIFT_INIT_POSITION = 1250;
     public static int LIFT_MAX_POSITION = 2600;
     public static double LIFT_REVERSE_CONSTANT = 0.75;
+
+    public static double ARM1_INIT_POS = 0.43;
+    public static double ARM2_INIT_POS = 0.42;
+
+    public static double ARM1_POSITION = 0.65;
+    public static double ARM2_POSITION = 0.2;
 }

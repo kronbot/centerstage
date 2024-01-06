@@ -31,10 +31,10 @@ public class HangDriver {
     public void drive(boolean forwardButton, boolean reverseButton) {
         if (forwardButton) {
             motor.setPower(-HOOK_POWER);
-            motor2.setPower(-HOOK_POWER);
+            motor2.setPower(HOOK_POWER);
         } else if (reverseButton) {
             motor.setPower(HOOK_POWER);
-            motor2.setPower(HOOK_POWER);
+            motor2.setPower(-HOOK_POWER);
         } else {
             motor.setPower(0);
             motor2.setPower(0);
