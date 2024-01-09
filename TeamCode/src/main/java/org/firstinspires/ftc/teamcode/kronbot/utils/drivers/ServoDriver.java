@@ -61,6 +61,10 @@ public class ServoDriver {
         if(activated) intakeServo.setPosition(1);
         else intakeServo.setPosition(0.5);
     }
+    public void intake2(boolean activated) {
+        if(activated) intakeServo.setPosition(0);
+        else intakeServo.setPosition(0.5);
+    }
 
     public void cutArmPower() {
         armServo1.cutPower();

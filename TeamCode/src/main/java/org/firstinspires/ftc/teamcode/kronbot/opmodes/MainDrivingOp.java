@@ -46,6 +46,7 @@ public class MainDrivingOp extends LinearOpMode {
         Button driveModeButton = new Button();
         Button reverseButton = new Button();
         Button hookButton = new Button();
+        Button armButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.square);
@@ -57,18 +58,23 @@ public class MainDrivingOp extends LinearOpMode {
             hookButton.updateButton(utilityGamepad.cross);
             hookButton.longPress();
 
+            armButton.updateButton(utilityGamepad.square);
+            armButton.shortPress();
+
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
             robot.servos.hook(hookButton.getLongToggle());
 
             robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
             robot.servos.intake(utilityGamepad.dpad_up);
+            robot.servos.intake2(utilityGamepad.dpad_left);
 
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
-            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION)
-                robot.servos.arm(true);
-            else
-                robot.servos.arm(false);
+            robot.servos.arm(armButton.getShortToggle());
+//            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION)
+//                robot.servos.arm(true);
+//            else
+//                robot.servos.arm(false);
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
