@@ -52,16 +52,16 @@ public class ServoDriver {
             hookServo1.setPosition(0);
             hookServo2.setPosition(0);
         } else {
-            hookServo1.setPosition(0.7);
+            hookServo1.setPosition(0.67);
             hookServo2.setPosition(0.7);
         }
     }
 
-    public void intake(boolean activated) {
+    public void intakeSpinUp(boolean activated) {
         if(activated) intakeServo.setPosition(1);
         else intakeServo.setPosition(0.5);
     }
-    public void intake2(boolean activated) {
+    public void intakeSpinDown(boolean activated) {
         if(activated) intakeServo.setPosition(0);
         else intakeServo.setPosition(0.5);
     }

@@ -4,56 +4,122 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
-import java.util.List;
+public class GameElementDetection {
+    OpenCvWebcam webcam;
+    DetectionPipeline pipeline;
 
-public class    GameElementDetection {
-    private static final String TFOD_MODEL_FILE = "GameElement.tflite";
+    public enum Color {
+        RED(2), GREEN(1), BLUE(0);
 
-    private static final String[] LABELS = {
-            "Red",
-            "Blue"
-    };
+        private int color;
 
-    TfodProcessor tfod;
-    VisionPortal visionPortal;
+        Color (int color) {
+            this.color = color;
+        }
+    }
 
-    private List<Recognition> gameElementRecognition;
+    public void init(HardwareMap hardwareMap, Telemetry telemetry, Color color) {
+        WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-    public void init(HardwareMap hardwareMap) {
-        tfod = new TfodProcessor.Builder()
-            .setModelFileName(TFOD_MODEL_FILE)
-            .setModelLabels(LABELS).build();
+        pipeline = new DetectionPipeline();
+        pipeline.init(telemetry, color.color);
+        webcam.setPipeline(pipeline);
 
-        visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+    }
+
+    public boolean detect() {
+        return pipeline.isLeft();
     }
 
     public void close() {
-        visionPortal.close();
+        webcam.stopStreaming();
+        webcam.closeCameraDevice();
     }
 
-    public List<Recognition> getGameElement() {
-        return gameElementRecognition;
-    }
+    class DetectionPipeline extends OpenCvPipeline {
+        Mat YCrCb = new Mat();
+        Mat leftElement;
+        Mat rightElement;
 
-    public void detect() {
-        gameElementRecognition = tfod.getRecognitions();
-    }
+        double leftAvg, rightAvg;
+        Mat output = new Mat();
+        Scalar rectColor = new Scalar(0, 255, 0);
 
-    public void showInfo(Telemetry telemetry) {
-        telemetry.addData("# Objects Detected", gameElementRecognition.size());
+        boolean isLeft = false;
 
-        for (Recognition recognition : gameElementRecognition) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+        Telemetry telemetry;
 
-            telemetry.addData(""," ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+        int color = 0;
+
+        public void init(Telemetry telemetry, int color) {
+            this.telemetry = telemetry;
+            this.color = color;
+        }
+
+        public Mat processFrame(Mat input) {
+            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+            telemetry.addLine("Pipeline running");
+
+            Rect leftRect = new Rect(1, 1, 639, 719);
+            Rect rightRect = new Rect(640, 1, 1279, 719);
+
+            input.copyTo(output);
+            Imgproc.rectangle(output, leftRect, rectColor, 2);
+            Imgproc.rectangle(output, rightRect, rectColor, 2);
+
+            leftElement = YCrCb.submat(leftRect);
+            rightElement = YCrCb.submat(rightRect);
+
+            Core.extractChannel(leftElement, leftElement, color);
+            Core.extractChannel(rightElement, rightElement, color);
+
+            Scalar leftMean = Core.mean(leftElement);
+            Scalar rightMean = Core.mean(rightElement);
+
+            leftAvg = leftMean.val[0];
+            rightAvg = rightMean.val[0];
+
+            if (leftAvg > rightAvg) {
+                Imgproc.rectangle(output, leftRect, rectColor, 5);
+                telemetry.addData("Element", "Left");
+                isLeft = true;
+            } else {
+                Imgproc.rectangle(output, rightRect, rectColor, 5);
+                telemetry.addData("Element", "Right");
+                isLeft = false;
+            }
+
+            return (output);
+        }
+
+        public boolean isLeft() {
+            return isLeft;
         }
     }
+
+
 }

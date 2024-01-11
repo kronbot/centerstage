@@ -19,28 +19,25 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Autonomous(name = "Test Autonomy", group = Constants.TEST_GROUP)
 public class TestAutonomy extends LinearOpMode {
-    private final KronBot robot = new KronBot();
-    private MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
 
-    private class MoveAction implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            drive.actionBuilder(drive.pose)
-                    .splineToConstantHeading(new Vector2d(0,10),drive.pose.heading)
-                    .build();
-            return true;
-        }
-    }
-
+    KronBot robot = new KronBot();
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
 
-
-        Actions.runBlocking(new MoveAction());
         waitForStart();
+//        Actions.runBlocking(
+//                drive.actionBuilder(drive.pose)
+//                        .lineToX(30)
+//                        .build());
+
+        Action hatz = drive.actionBuilder(drive.pose)
+                .lineToX(30)
+                .turn(Math.toRadians(90))
+                .build();
+
+        Actions.runBlocking(hatz);
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.update();

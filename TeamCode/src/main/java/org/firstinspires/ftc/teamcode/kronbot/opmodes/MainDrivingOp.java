@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.components.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.components.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
-import org.firstinspires.ftc.teamcode.kronbot.utils.drivers.LiftDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 
 /**
@@ -48,6 +47,8 @@ public class MainDrivingOp extends LinearOpMode {
         Button hookButton = new Button();
         Button armButton = new Button();
 
+        boolean arm = false;
+
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.square);
             driveModeButton.longPress();
@@ -58,23 +59,19 @@ public class MainDrivingOp extends LinearOpMode {
             hookButton.updateButton(utilityGamepad.cross);
             hookButton.longPress();
 
-            armButton.updateButton(utilityGamepad.square);
+            armButton.updateButton(utilityGamepad.triangle);
             armButton.shortPress();
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
             robot.servos.hook(hookButton.getLongToggle());
 
             robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
-            robot.servos.intake(utilityGamepad.dpad_up);
-            robot.servos.intake2(utilityGamepad.dpad_left);
+            if (utilityGamepad.dpad_up) robot.servos.intakeSpinUp(utilityGamepad.dpad_up);
+            else robot.servos.intakeSpinDown(utilityGamepad.square);
 
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
             robot.servos.arm(armButton.getShortToggle());
-//            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION)
-//                robot.servos.arm(true);
-//            else
-//                robot.servos.arm(false);
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();

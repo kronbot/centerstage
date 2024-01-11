@@ -25,12 +25,12 @@ public class Constants {
 
     public static double LIFT_TOLERANCE = 50;
     public static int   LIFT_INIT_POSITION = 1250;
-    public static int LIFT_MAX_POSITION = 2600;
+    public static int LIFT_MAX_POSITION = 2550;
     public static double LIFT_REVERSE_CONSTANT = 0.75;
 
-    public static double ARM1_INIT_POS = 0.39;
-    public static double ARM2_INIT_POS = 0.65;
+    public static double ARM1_INIT_POS = 0.65;
+    public static double ARM2_INIT_POS = 0.37;
 
-    public static double ARM1_POSITION = 0.65;
-    public static double ARM2_POSITION = 0.2;
+    public static double ARM1_POSITION = 0.44;
+    public static double ARM2_POSITION = 0.65;
 }

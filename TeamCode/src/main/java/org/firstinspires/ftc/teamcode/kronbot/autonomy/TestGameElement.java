@@ -15,13 +15,17 @@ public class TestGameElement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        gameElementDetection.init(hardwareMap);
+        gameElementDetection.init(hardwareMap, telemetry, GameElementDetection.Color.RED);
+
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Is Left", gameElementDetection.detect());
+            telemetry.update();
+        }
 
         waitForStart();
 
         while (!isStopRequested() && opModeIsActive()) {
-            gameElementDetection.detect();
-            gameElementDetection.showInfo(telemetry);
+            telemetry.addData("Is Left", gameElementDetection.detect());
             telemetry.update();
         }
 
