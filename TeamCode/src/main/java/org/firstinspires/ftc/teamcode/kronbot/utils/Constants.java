@@ -16,7 +16,7 @@ public class Constants {
 
     public static double ROBOT_SPEED = 1.0;
     public static double SLIDES_SPEED = 1.0;
-    public static double REST_POWER = 0.03;
+    public static double REST_POWER = 0.05;
 
     public static double SERVO_SPEED = 0.001;
 
@@ -28,9 +28,16 @@ public class Constants {
     public static int LIFT_MAX_POSITION = 2550;
     public static double LIFT_REVERSE_CONSTANT = 0.75;
 
-    public static double ARM1_INIT_POS = 0.65;
-    public static double ARM2_INIT_POS = 0.37;
+    public static double ARM1_INIT_POS = 0.48;
+    public static double ARM2_INIT_POS = 0.33;
+    public static double ARM1_POSITION = 0.265;
+    public static double ARM2_POSITION = 0.595;
+    public static double ARM1_HIGH = 0.065;
+    public static double ARM2_HIGH = 0.795;
+    public static double CAMERA_TRASH_HOLD = 0.2;
 
-    public static double ARM1_POSITION = 0.44;
-    public static double ARM2_POSITION = 0.65;
+    public static double PLANE_START = 0;
+    public static double PLANE_END = 0.5;
+
+    public static int MOTOR_SLEEP_TIME = 2000;
 }

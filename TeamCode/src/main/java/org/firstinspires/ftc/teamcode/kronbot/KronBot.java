@@ -36,13 +36,16 @@ public class KronBot {
         hookServo2.init("hook2", false, true);
         Servo intakeServo = new Servo(hardwareMap);
         intakeServo.init("clawServo",true,true);
+        Servo planeServo = new Servo(hardwareMap);
+        planeServo.init("plane", false, false);
         servos = new ServoDriver();
         armServo1.setPosition(Constants.ARM1_INIT_POS);
         armServo2.setPosition(Constants.ARM2_INIT_POS);
-        servos.init(armServo1, armServo2, pixelServo, hookServo1, hookServo2,intakeServo);
+        servos.init(armServo1, armServo2, pixelServo, hookServo1, hookServo2,intakeServo, planeServo);
         servos.pixel(true);
         servos.hook(false);
         servos.arm(false);
+        servos.plane(false);
 
         DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");

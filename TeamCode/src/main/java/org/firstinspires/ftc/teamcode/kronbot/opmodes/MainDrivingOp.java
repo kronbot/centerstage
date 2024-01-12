@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.LIFT_INIT_POSITION;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.MOTOR_SLEEP_TIME;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -25,6 +26,8 @@ public class MainDrivingOp extends LinearOpMode {
     Gamepad drivingGamepad;
     Gamepad utilityGamepad;
 
+    boolean moved = false;
+
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
@@ -46,8 +49,8 @@ public class MainDrivingOp extends LinearOpMode {
         Button reverseButton = new Button();
         Button hookButton = new Button();
         Button armButton = new Button();
-
-        boolean arm = false;
+        Button planeButton = new Button();
+        Button armHighButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.square);
@@ -62,16 +65,37 @@ public class MainDrivingOp extends LinearOpMode {
             armButton.updateButton(utilityGamepad.triangle);
             armButton.shortPress();
 
+            planeButton.updateButton(utilityGamepad.dpad_left);
+            planeButton.longPress();
+
+            armHighButton.updateButton(utilityGamepad.dpad_right);
+            armHighButton.longPress();
+
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
-            robot.servos.hook(hookButton.getLongToggle());
+
+            if (hookButton.getLongToggle()) {
+                if (!moved) {
+                    robot.hook.drive(true, false);
+                    sleep(MOTOR_SLEEP_TIME);
+                    robot.hook.drive(false, false);
+                    moved = true;
+                }
+                robot.servos.hook(hookButton.getLongToggle());
+            } else moved = false;
+
+            robot.servos.plane(planeButton.getLongToggle());
 
             robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
             if (utilityGamepad.dpad_up) robot.servos.intakeSpinUp(utilityGamepad.dpad_up);
             else robot.servos.intakeSpinDown(utilityGamepad.square);
 
+
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
-            robot.servos.arm(armButton.getShortToggle());
+            if (!armHighButton.getLongToggle())
+                robot.servos.arm(armButton.getShortToggle());
+            else
+                robot.servos.high(armHighButton.getLongToggle());
 
             if (!driveModeButton.getLongToggle()) {
                 robotCentricDrive.run();
