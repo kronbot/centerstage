@@ -19,8 +19,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.detection.GameElementDetection;
+import org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+
+import java.io.FileFilter;
 
 @Autonomous(name = "Left Red", group = Constants.MAIN_GROUP)
 public class LeftRed extends LinearOpMode {
@@ -57,17 +60,32 @@ public class LeftRed extends LinearOpMode {
         else
             pixelPose = coordinatesConvert(RedPixelLeft);
 
-        SequentialAction rono = new SequentialAction(
+        SequentialAction middlepixel = new SequentialAction(
                 drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x).build(),
-                telemetryPacket -> {
+                (dropPixel) -> {
                     robot.servos.pixel(false);
                     return false;
                 },
                 drive.actionBuilder(drive.pose).strafeTo(new Vector2d(0, pixelPose.position.y)).build());
+        SequentialAction leftRightPixel = new SequentialAction(
+                drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x).strafeTo(new Vector2d(pixelPose.position.x,pixelPose.position.y)).build(),
+                (dropPixel2) -> {
+                    robot.servos.pixel(false);
+                    return false;
+                },
+                drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x+1).build());
+
+        Action middleOfTile = drive.actionBuilder(drive.pose)
+                .splineToSplineHeading(new Pose2d(new Vector2d(AutonomousConstants.middleOfTile.x, AutonomousConstants.middleOfTile.y),0),Math.PI/2)
+                .build();
 
         waitForStart();
-
-        Actions.runBlocking(rono);
+        if(position == GameElementDetection.Position.MIDDLE)
+        Actions.runBlocking(middlepixel);
+        else {
+            Actions.runBlocking(leftRightPixel);
+        }
+        //Actions.runBlocking(middleOfTile);
 
         if (isStopRequested()) return;
     }

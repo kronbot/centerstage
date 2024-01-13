@@ -18,9 +18,10 @@ public final class AutonomousConstants {
         }
     }
 
-    public static Coordinates RedPixelLeft = new Coordinates(65, 15, 0);
-    public static Coordinates RedPixelMiddle = new Coordinates(100, -15, 0);
-    public static Coordinates RedPixelRight = new Coordinates(65, -50, 0);
+    public static Coordinates RedPixelLeft = new Coordinates(60, 15, 0);
+    public static Coordinates RedPixelMiddle = new Coordinates(110, -15, 0);
+    public static Coordinates RedPixelRight = new Coordinates(60, -55, 0);
+    public static Coordinates middleOfTile = new Coordinates(60,0,Math.toRadians(90));
 
     public static Pose2d coordinatesConvert(Coordinates coord) {
         return new Pose2d(coord.x, coord.y, coord.heading);
