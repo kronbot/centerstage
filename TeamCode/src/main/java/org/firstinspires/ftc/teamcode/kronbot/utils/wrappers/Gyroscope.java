@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
+import org.firstinspires.ftc.teamcode.kronbot.utils.pid.ControllerPID;
 
 /**
  * A wrapper for the gyroscope

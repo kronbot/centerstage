@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.kronbot.autonomy;
+package org.firstinspires.ftc.teamcode.kronbot.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

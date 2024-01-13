@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
+import org.firstinspires.ftc.teamcode.kronbot.utils.pid.ControllerPID;
 
 /**
  * A wrapper for the gyroscope on the control hub

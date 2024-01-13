@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.kronbot.utils.wrappers;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
+
 /**
  * A wrapper for a button that allows for toggling, short presses, and long presses.
  *
@@ -45,7 +47,7 @@ public class Button {
         return false;
     }
 
-    public static double longPressTime = 1000;
+    public static double longPressTime = Constants.BUTTON_LONG_PRESS_TIME;
     boolean longPressLastIteration = false;
     boolean longPressCurrentIteration = false;
     boolean longToggle = false;

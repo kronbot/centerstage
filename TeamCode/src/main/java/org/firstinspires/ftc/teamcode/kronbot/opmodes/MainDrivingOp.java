@@ -51,6 +51,7 @@ public class MainDrivingOp extends LinearOpMode {
         Button armButton = new Button();
         Button planeButton = new Button();
         Button armHighButton = new Button();
+        Button resetButton = new Button();
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.square);
@@ -59,17 +60,24 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.circle);
             reverseButton.shortPress();
 
-            hookButton.updateButton(utilityGamepad.cross);
+            hookButton.updateButton(utilityGamepad.triangle);
             hookButton.longPress();
 
-            armButton.updateButton(utilityGamepad.triangle);
-            armButton.shortPress();
+            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
+                armButton.updateButton(utilityGamepad.square);
+                armButton.shortPress();
+            }
 
             planeButton.updateButton(utilityGamepad.dpad_left);
             planeButton.longPress();
 
-            armHighButton.updateButton(utilityGamepad.dpad_right);
-            armHighButton.longPress();
+            resetButton.updateButton(utilityGamepad.circle);
+            resetButton.shortPress();
+
+            if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
+                armHighButton.updateButton(utilityGamepad.dpad_right);
+                armHighButton.longPress();
+            }
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
@@ -87,8 +95,15 @@ public class MainDrivingOp extends LinearOpMode {
 
             robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
             if (utilityGamepad.dpad_up) robot.servos.intakeSpinUp(utilityGamepad.dpad_up);
-            else robot.servos.intakeSpinDown(utilityGamepad.square);
+            else robot.servos.intakeSpinDown(utilityGamepad.cross);
 
+//            if (resetButton.getShortToggle()) {
+//                robot.lift.setTargetPosition(0);
+//                robot.servos.arm(false);
+//
+//                armButton.resetToggles();
+//                resetButton.resetToggles();
+//            }
 
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);

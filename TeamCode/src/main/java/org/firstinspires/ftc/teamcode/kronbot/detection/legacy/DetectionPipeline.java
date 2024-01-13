@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.kronbot.detection;
+package org.firstinspires.ftc.teamcode.kronbot.detection.legacy;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.kronbot.detection.GameElementDetection;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
-import org.firstinspires.ftc.teamcode.kronbot.utils.ControllerPID;
+import org.firstinspires.ftc.teamcode.kronbot.utils.pid.ControllerPID;
 import org.firstinspires.ftc.teamcode.kronbot.utils.pid.PIDCoefficients;
 import org.firstinspires.ftc.teamcode.kronbot.utils.pid.PIDFController;
 

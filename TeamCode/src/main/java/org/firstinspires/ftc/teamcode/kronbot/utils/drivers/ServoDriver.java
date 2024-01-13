@@ -66,8 +66,8 @@ public class ServoDriver {
             hookServo1.setPosition(0.1);
             hookServo2.setPosition(0.1);
         } else {
-            hookServo1.setPosition(0.57);
-            hookServo2.setPosition(0.6);
+            hookServo1.setPosition(0.66);
+            hookServo2.setPosition(0.7);
         }
     }
 
