@@ -37,7 +37,7 @@ public class Constants {
     public static double CAMERA_TRASH_HOLD = 0.2;
 
     public static double PLANE_START = 0;
-    public static double PLANE_END = 0.5;
+    public static double PLANE_END = 0.65;
 
     public static int MOTOR_SLEEP_TIME = 2000;
 
