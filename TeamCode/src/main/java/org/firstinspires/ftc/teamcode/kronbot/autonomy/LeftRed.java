@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.kronbot.autonomy;
 
+import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.Parking;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.RedPixelLeft;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.RedPixelMiddle;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.RedPixelRight;
@@ -8,10 +9,8 @@ import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.c
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -23,9 +22,7 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-import java.io.FileFilter;
-
-@Autonomous(name = "Left Red", group = Constants.MAIN_GROUP)
+@Autonomous(name = "Right Red", group = Constants.MAIN_GROUP)
 public class LeftRed extends LinearOpMode {
     GameElementDetection detection;
     GameElementDetection.Position position;
@@ -33,14 +30,14 @@ public class LeftRed extends LinearOpMode {
 
     @Override
     public void runOpMode()  throws InterruptedException {
-        robot.init(hardwareMap);
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+        robot.init(hardwareMap, true);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         detection = new GameElementDetection();
-        detection.init(hardwareMap);
+        detection.init(hardwareMap, true);
 
         FtcDashboard.getInstance().startCameraStream(detection.getCamera(), 30);
 
@@ -59,34 +56,55 @@ public class LeftRed extends LinearOpMode {
             pixelPose = coordinatesConvert(RedPixelMiddle);
         else
             pixelPose = coordinatesConvert(RedPixelLeft);
+        Pose2d parkPose = coordinatesConvert(Parking);
 
-        SequentialAction middlepixel = new SequentialAction(
-                drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x).build(),
-                (dropPixel) -> {
+        SequentialAction middlePixel = new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        .lineToX(pixelPose.position.x)
+                        .strafeTo(new Vector2d(pixelPose.position.x, pixelPose.position.y))
+                        .build(),
+                (drop) -> {
                     robot.servos.pixel(false);
+                    sleep(1000);
                     return false;
-                },
-                drive.actionBuilder(drive.pose).strafeTo(new Vector2d(0, pixelPose.position.y)).build());
-        SequentialAction leftRightPixel = new SequentialAction(
-                drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x).strafeTo(new Vector2d(pixelPose.position.x,pixelPose.position.y)).build(),
-                (dropPixel2) -> {
+                }
+        );
+        SequentialAction rightPixel = new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        .strafeTo(new Vector2d(pixelPose.position.x, pixelPose.position.y)).lineToX(pixelPose.position.x).build(),
+                (drop) -> {
                     robot.servos.pixel(false);
+                    sleep(1000);
                     return false;
-                },
-                drive.actionBuilder(drive.pose).lineToX(pixelPose.position.x+1).build());
+                }
+        );
+        SequentialAction leftPixel = new SequentialAction(
+                drive.actionBuilder(drive.pose).strafeTo(new Vector2d(pixelPose.position.x, pixelPose.position.y)).lineToX(pixelPose.position.x).build(),
+                (drop) -> {
+                    robot.servos.pixel(false);
+                    sleep(1000);
+                    return false;
+                }
+        );
 
-        Action middleOfTile = drive.actionBuilder(drive.pose)
-                .splineToSplineHeading(new Pose2d(new Vector2d(AutonomousConstants.middleOfTile.x, AutonomousConstants.middleOfTile.y),0),Math.PI/2)
-                .build();
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .turnTo(Math.toRadians(180))
+                        .build()
+        );
 
         waitForStart();
-        if(position == GameElementDetection.Position.MIDDLE)
-        Actions.runBlocking(middlepixel);
-        else {
-            Actions.runBlocking(leftRightPixel);
-        }
-        //Actions.runBlocking(middleOfTile);
 
-        if (isStopRequested()) return;
+
+        if (position == GameElementDetection.Position.MIDDLE)
+            Actions.runBlocking(middlePixel);
+        else if (position == GameElementDetection.Position.LEFT)
+            Actions.runBlocking(leftPixel);
+        else if (position == GameElementDetection.Position.RIGHT)
+            Actions.runBlocking(rightPixel);
+
+        while (!isStopRequested() && opModeIsActive()) {
+            telemetry.update();
+        }
     }
 }

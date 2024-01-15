@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.kronbot.detection;
 
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.BLUE_HUE_HIGH;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.BLUE_HUE_LOW;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -37,14 +40,16 @@ public class GameElementDetection {
         LEFT, MIDDLE, RIGHT
     }
 
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap, boolean isBlue) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
         camera = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        camera.setPipeline(new RedBlobDetectionPipeline());
+        DetectionPipeline pipeline = new DetectionPipeline();
+        pipeline.init(isBlue);
+        camera.setPipeline(pipeline);
         //rotate camera
         camera.openCameraDevice();
         camera.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
@@ -71,7 +76,12 @@ public class GameElementDetection {
         return camera;
     }
 
-    class RedBlobDetectionPipeline extends OpenCvPipeline {
+    class DetectionPipeline extends OpenCvPipeline {
+        boolean isBlue;
+        public void init(boolean isBlue) {
+            this.isBlue = isBlue;
+        }
+
         @Override
         public Mat processFrame(Mat input) {
             Mat redMask = preprocessFrame(input);
@@ -109,12 +119,19 @@ public class GameElementDetection {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 
-            Scalar lowerRed = new Scalar(100, 100, 100);
-            Scalar upperRed = new Scalar(180, 255, 255);
+            Scalar lower, upper;
+
+            if (isBlue) {
+                lower = new Scalar(BLUE_HUE_LOW, 50, 50);
+                upper = new Scalar(BLUE_HUE_HIGH, 255, 255);
+            } else {
+                lower = new Scalar(100, 100, 100);
+                upper = new Scalar(180, 255, 255);
+            }
 
 
             Mat redMask = new Mat();
-            Core.inRange(hsvFrame, lowerRed, upperRed, redMask);
+            Core.inRange(hsvFrame, lower, upper, redMask);
 
             Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
             Imgproc.morphologyEx(redMask, redMask, Imgproc.MORPH_OPEN, kernel);

@@ -34,10 +34,17 @@ public class TestAutonomy extends LinearOpMode {
 
         Action hatz = drive.actionBuilder(drive.pose)
                 .lineToX(30)
-                .turn(Math.toRadians(90))
+                .turn(Math.toRadians(180))
                 .build();
 
-        Actions.runBlocking(hatz);
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToX(40)
+                        .turnTo(Math.toRadians(180))
+                        .build()
+        );
+
+//        Actions.runBlocking(hatz);
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.update();

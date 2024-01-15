@@ -26,6 +26,7 @@ public class Constants {
     public static double LIFT_TOLERANCE = 50;
     public static int   LIFT_INIT_POSITION = 100 ;
     public static int LIFT_MAX_POSITION = 2550;
+
     public static double LIFT_REVERSE_CONSTANT = 0.75;
 
     public static double ARM1_INIT_POS = 0.48;
@@ -42,4 +43,7 @@ public class Constants {
     public static int MOTOR_SLEEP_TIME = 2000;
 
     public static int BUTTON_LONG_PRESS_TIME = 750;
+
+    public static int BLUE_HUE_LOW = 0;
+    public static int BLUE_HUE_HIGH = 180;
 }

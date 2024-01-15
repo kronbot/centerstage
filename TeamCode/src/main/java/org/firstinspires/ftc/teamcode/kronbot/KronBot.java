@@ -30,6 +30,8 @@ public class KronBot {
         armServo2.init("arm2", false, true);
         Servo pixelServo = new Servo(hardwareMap);
         pixelServo.init("pixel", false, true);
+        Servo pixelServo2 = new Servo(hardwareMap);
+        pixelServo2.init("pixel2", false, true);
         Servo hookServo1 = new Servo(hardwareMap);
         hookServo1.init("hook", false, true);
         Servo hookServo2 = new Servo(hardwareMap);
@@ -41,8 +43,59 @@ public class KronBot {
         servos = new ServoDriver();
         armServo1.setPosition(Constants.ARM1_INIT_POS);
         armServo2.setPosition(Constants.ARM2_INIT_POS);
-        servos.init(armServo1, armServo2, pixelServo, hookServo1, hookServo2,intakeServo, planeServo);
-        servos.pixel(true);
+        servos.init(armServo1, armServo2, pixelServo, hookServo1, hookServo2,intakeServo, planeServo, pixelServo2);
+        servos.pixel(false);
+        servos.hook(false);
+        servos.arm(false);
+        servos.plane(false);
+
+        DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        motors = new MotorDriver();
+        motors.init(leftRear, leftFront, rightRear, rightFront);
+
+        DcMotorEx intakeMotor = hardwareMap.get(DcMotorEx.class, "intake");
+        intake = new IntakeDriver();
+        intake.init(intakeMotor);
+
+        DcMotorEx hangMotor = hardwareMap.get(DcMotorEx.class, "hangLeft");
+        DcMotorEx hangMotor2 = hardwareMap.get(DcMotorEx.class, "hangRight");
+        hook = new HangDriver();
+        hook.init(hangMotor, hangMotor2);
+
+        Motor liftMotor = new Motor(hardwareMap);
+        lift = new LiftDriver();
+        lift.init(liftMotor, false);
+
+        BHI260IMU imu = hardwareMap.get(BHI260IMU.class, "imu");
+        gyroscope = new ControlHubGyroscope(hardwareMap);
+        gyroscope.init(imu);
+    }
+
+    public void init(HardwareMap hardwareMap, boolean pixel) {
+        Servo armServo1 = new Servo(hardwareMap);
+        armServo1.init("arm", false, true);
+        Servo armServo2 = new Servo(hardwareMap);
+        armServo2.init("arm2", false, true);
+        Servo pixelServo = new Servo(hardwareMap);
+        pixelServo.init("pixel", false, true);
+        Servo pixelServo2 = new Servo(hardwareMap);
+        pixelServo2.init("pixel2", false, true);
+        Servo hookServo1 = new Servo(hardwareMap);
+        hookServo1.init("hook", false, true);
+        Servo hookServo2 = new Servo(hardwareMap);
+        hookServo2.init("hook2", false, true);
+        Servo intakeServo = new Servo(hardwareMap);
+        intakeServo.init("clawServo",true,true);
+        Servo planeServo = new Servo(hardwareMap);
+        planeServo.init("plane", false, false);
+        servos = new ServoDriver();
+        armServo1.setPosition(Constants.ARM1_INIT_POS);
+        armServo2.setPosition(Constants.ARM2_INIT_POS);
+        servos.init(armServo1, armServo2, pixelServo, hookServo1, hookServo2,intakeServo, planeServo, pixelServo2);
+        servos.pixel(pixel);
         servos.hook(false);
         servos.arm(false);
         servos.plane(false);

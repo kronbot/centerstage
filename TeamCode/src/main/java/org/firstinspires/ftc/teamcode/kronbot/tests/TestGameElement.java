@@ -24,7 +24,7 @@ public class TestGameElement extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         detection = new GameElementDetection();
-        detection.init(hardwareMap);
+        detection.init(hardwareMap, true);
 
         FtcDashboard.getInstance().startCameraStream(detection.getCamera(), 30);
 

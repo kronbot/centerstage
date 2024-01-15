@@ -60,15 +60,15 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.circle);
             reverseButton.shortPress();
 
-            hookButton.updateButton(utilityGamepad.triangle);
-            hookButton.longPress();
+//            hookButton.updateButton(utilityGamepad.triangle);
+//            hookButton.longPress();
 
             if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
                 armButton.updateButton(utilityGamepad.square);
                 armButton.shortPress();
             }
 
-            planeButton.updateButton(utilityGamepad.dpad_left);
+            planeButton.updateButton(utilityGamepad.triangle);
             planeButton.longPress();
 
             resetButton.updateButton(utilityGamepad.circle);

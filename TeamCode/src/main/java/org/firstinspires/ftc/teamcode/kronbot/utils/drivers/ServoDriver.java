@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Servo;
 
 public class ServoDriver {
     Servo pixelServo;
+    Servo pixelServo2;
     Servo armServo1;
     Servo armServo2;
     Servo hookServo1;
@@ -21,7 +22,7 @@ public class ServoDriver {
     Servo intakeServo;
     Servo planeServo;
 
-    public void init(Servo armServo1, Servo armServo2,  Servo pixelServo, Servo hookServo1, Servo hookServo2, Servo intakeServo, Servo planeServo) {
+    public void init(Servo armServo1, Servo armServo2,  Servo pixelServo, Servo hookServo1, Servo hookServo2, Servo intakeServo, Servo planeServo, Servo pixelServo2) {
         armServo1.setPWMRange(500, 2500);
         armServo2.setPWMRange(500, 2500);
         hookServo1.setPWMRange(500, 2500);
@@ -29,6 +30,7 @@ public class ServoDriver {
         hookServo2.setPWMRange(500,2500);
         intakeServo.setPWMRange(500,2500);
         planeServo.setPWMRange(500, 2500);
+        pixelServo2.setPWMRange(500, 2500);
 
         this.pixelServo = pixelServo;
         this.armServo1 = armServo1;
@@ -37,6 +39,7 @@ public class ServoDriver {
         this.hookServo2 = hookServo2;
         this.intakeServo = intakeServo;
         this.planeServo = planeServo;
+        this.pixelServo2 = pixelServo2;
     }
 
     public void arm(boolean activated) {
@@ -57,8 +60,14 @@ public class ServoDriver {
     }
 
     public void pixel(boolean activated) {
-        if (activated) pixelServo.setPosition(1);
-        else pixelServo.setPosition(0);
+        if (activated) {
+            pixelServo.setPosition(1);
+            pixelServo2.setPosition(0);
+        }
+        else {
+            pixelServo.setPosition(0);
+            pixelServo2.setPosition(0.5);
+        }
     }
 
     public void hook(boolean activated) {
