@@ -52,6 +52,9 @@ public class MainDrivingOp extends LinearOpMode {
         Button planeButton = new Button();
         Button armHighButton = new Button();
         Button resetButton = new Button();
+        Button hook2Button = new Button();
+
+        boolean hooks = false;
 
         while (opModeIsActive() && !isStopRequested()) {
             driveModeButton.updateButton(drivingGamepad.square);
@@ -62,6 +65,10 @@ public class MainDrivingOp extends LinearOpMode {
 
             hookButton.updateButton(utilityGamepad.circle);
             hookButton.longPress();
+            hookButton.shortPress();
+
+            hook2Button.updateButton(utilityGamepad.dpad_left);
+            hook2Button.shortPress();
 
             if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
                 armButton.updateButton(utilityGamepad.square);
@@ -81,17 +88,21 @@ public class MainDrivingOp extends LinearOpMode {
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
-//            if (hookButton.getLongToggle()) {
-//                if (!moved) {
-//                    robot.hook.drive(true, false);
-//                    sleep(MOTOR_SLEEP_TIME);
-//                    robot.hook.drive(false, false);
-//                    moved = true;
-//                }
-//                robot.servos.hook(hookButton.getLongToggle());
-//            } else moved = false;
+            if (hookButton.getLongToggle()) {
+                hooks = true;
+                hookButton.resetToggles();
+                hook2Button.resetToggles();
+            } else if (hookButton.getShortToggle()) {
+                hooks = false;
+                hookButton.resetToggles();
+                hook2Button.resetToggles();
+            }
 
-            robot.servos.hook(hookButton.getLongToggle());
+            if (hook2Button.getShortToggle() && hooks) {
+                robot.servos.hook2(hook2Button.getShortToggle());
+            } else {
+                robot.servos.hook(hooks);
+            }
 
 
             robot.servos.plane(planeButton.getLongToggle());
@@ -99,14 +110,6 @@ public class MainDrivingOp extends LinearOpMode {
             robot.intake.drive(utilityGamepad.dpad_up, utilityGamepad.dpad_down);
             if (utilityGamepad.dpad_up) robot.servos.intakeSpinUp(utilityGamepad.dpad_up);
             else robot.servos.intakeSpinDown(utilityGamepad.cross);
-
-//            if (resetButton.getShortToggle()) {
-//                robot.lift.setTargetPosition(0);
-//                robot.servos.arm(false);
-//
-//                armButton.resetToggles();
-//                resetButton.resetToggles();
-//            }
 
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);

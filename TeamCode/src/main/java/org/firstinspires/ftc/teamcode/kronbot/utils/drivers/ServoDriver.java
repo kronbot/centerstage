@@ -7,8 +7,12 @@ import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_INIT_P
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM1_POSITION;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_POSITION;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK1_2POS;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK1_INIT;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK1_POS;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK2_2POS;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK2_INIT;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK2_POS;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.PLANE_END;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.PLANE_START;
 
@@ -74,11 +78,18 @@ public class ServoDriver {
 
     public void hook(boolean activated) {
         if (activated) {
-            hookServo1.setPosition(0.35);
-            hookServo2.setPosition(0.45);
+            hookServo1.setPosition(HOOK1_POS);
+            hookServo2.setPosition(HOOK2_POS);
         } else {
             hookServo1.setPosition(HOOK1_INIT);
             hookServo2.setPosition(HOOK2_INIT);
+        }
+    }
+
+    public void hook2(boolean activated) {
+        if (activated) {
+            hookServo1.setPosition(HOOK1_2POS);
+            hookServo2.setPosition(HOOK2_2POS);
         }
     }
 

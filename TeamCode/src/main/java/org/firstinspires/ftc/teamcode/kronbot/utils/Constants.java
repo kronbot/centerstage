@@ -35,8 +35,12 @@ public class Constants {
     public static double ARM2_POSITION = 0.59;
     public static double ARM1_HIGH = 0.58;
     public static double ARM2_HIGH = 0.23;
-    public static double HOOK1_INIT=0.9;
-    public static double HOOK2_INIT=1.0;
+    public static double HOOK1_INIT = 0.9;
+    public static double HOOK2_INIT = 0.9;
+    public static double HOOK1_POS = 0.44;
+    public static double HOOK2_POS = 0.6;
+    public static double HOOK1_2POS = 0.25;
+    public static double HOOK2_2POS = 0.4;
     public static double CAMERA_TRASH_HOLD = 0.2;
 
     public static double PLANE_START = 0;
