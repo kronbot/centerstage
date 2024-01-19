@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.kronbot.tests;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
  *
  * @verion 1.0
  */
+@Disabled
 @Autonomous(name = "Test Game Element", group = Constants.TEST_GROUP)
 public class TestGameElement extends LinearOpMode {
     GameElementDetection detection;

@@ -23,8 +23,8 @@ import org.firstinspires.ftc.teamcode.kronbot.detection.GameElementDetection;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-@Autonomous(name = "Left Red", group = Constants.MAIN_GROUP)
-public class LeftRed extends LinearOpMode {
+@Autonomous(name = "Right Red", group = Constants.MAIN_GROUP)
+public class RightRed extends LinearOpMode {
     GameElementDetection detection;
     GameElementDetection.Position position;
     KronBot robot = new KronBot();
@@ -52,7 +52,7 @@ public class LeftRed extends LinearOpMode {
 
         waitForStart();
 
-        SequentialAction action = ActionBuilder(robot, drive, false, false, position, () -> {
+        SequentialAction action = ActionBuilder(robot, drive, false, true, position, () -> {
             sleep(1000);
         });
 

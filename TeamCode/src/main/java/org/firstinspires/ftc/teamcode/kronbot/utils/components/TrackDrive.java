@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.kronbot.components;
+package org.firstinspires.ftc.teamcode.kronbot.utils.components;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ROBOT_SPEED;

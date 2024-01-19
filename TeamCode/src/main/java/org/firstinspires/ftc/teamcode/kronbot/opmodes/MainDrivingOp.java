@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.LIFT_INIT_POSITION;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.MOTOR_SLEEP_TIME;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
-import org.firstinspires.ftc.teamcode.kronbot.components.FieldCentricDrive;
-import org.firstinspires.ftc.teamcode.kronbot.components.RobotCentricDrive;
+import org.firstinspires.ftc.teamcode.kronbot.utils.components.FieldCentricDrive;
+import org.firstinspires.ftc.teamcode.kronbot.utils.components.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 

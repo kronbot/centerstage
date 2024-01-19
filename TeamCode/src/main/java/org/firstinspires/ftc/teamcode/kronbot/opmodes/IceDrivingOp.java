@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
-import org.firstinspires.ftc.teamcode.kronbot.components.TrackDrive;
+import org.firstinspires.ftc.teamcode.kronbot.utils.components.TrackDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.drivers.ServoDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;

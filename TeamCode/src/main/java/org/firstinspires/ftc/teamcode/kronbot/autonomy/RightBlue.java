@@ -1,13 +1,6 @@
 package org.firstinspires.ftc.teamcode.kronbot.autonomy;
 
 import static org.firstinspires.ftc.teamcode.kronbot.utils.ActionFactory.ActionBuilder;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.Back;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.ClosePark;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.PixelForward;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.PixelLeft;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.PixelMiddle;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.PixelRight;
-import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.coordinatesConvert;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -23,8 +16,8 @@ import org.firstinspires.ftc.teamcode.kronbot.detection.GameElementDetection;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-@Autonomous(name = "Left Red", group = Constants.MAIN_GROUP)
-public class LeftRed extends LinearOpMode {
+@Autonomous(name = "Right Blue", group = Constants.MAIN_GROUP)
+public class RightBlue extends LinearOpMode {
     GameElementDetection detection;
     GameElementDetection.Position position;
     KronBot robot = new KronBot();
@@ -38,7 +31,7 @@ public class LeftRed extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         detection = new GameElementDetection();
-        detection.init(hardwareMap, false);
+        detection.init(hardwareMap, true);
 
         FtcDashboard.getInstance().startCameraStream(detection.getCamera(), 30);
 
@@ -52,7 +45,7 @@ public class LeftRed extends LinearOpMode {
 
         waitForStart();
 
-        SequentialAction action = ActionBuilder(robot, drive, false, false, position, () -> {
+        SequentialAction action = ActionBuilder(robot, drive, true, false, position, () -> {
             sleep(1000);
         });
 

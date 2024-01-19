@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.kronbot.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
+@Disabled
 @Autonomous(name = "Test Tag", group = Constants.TEST_GROUP)
 public class TestTag extends LinearOpMode {
     private final KronBot robot = new KronBot();
