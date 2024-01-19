@@ -7,6 +7,8 @@ import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_INIT_P
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM1_POSITION;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ARM2_POSITION;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.CONTROLLER_DEADZONE;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK1_INIT;
+import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.HOOK2_INIT;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.PLANE_END;
 import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.PLANE_START;
 
@@ -72,11 +74,11 @@ public class ServoDriver {
 
     public void hook(boolean activated) {
         if (activated) {
-            hookServo1.setPosition(0.1);
-            hookServo2.setPosition(0.1);
+            hookServo1.setPosition(0.35);
+            hookServo2.setPosition(0.45);
         } else {
-            hookServo1.setPosition(0.66);
-            hookServo2.setPosition(0.7);
+            hookServo1.setPosition(HOOK1_INIT);
+            hookServo2.setPosition(HOOK2_INIT);
         }
     }
 

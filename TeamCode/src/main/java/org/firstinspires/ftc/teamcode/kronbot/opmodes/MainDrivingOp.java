@@ -60,8 +60,8 @@ public class MainDrivingOp extends LinearOpMode {
             reverseButton.updateButton(drivingGamepad.circle);
             reverseButton.shortPress();
 
-//            hookButton.updateButton(utilityGamepad.triangle);
-//            hookButton.longPress();
+            hookButton.updateButton(utilityGamepad.circle);
+            hookButton.longPress();
 
             if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
                 armButton.updateButton(utilityGamepad.square);
@@ -81,15 +81,18 @@ public class MainDrivingOp extends LinearOpMode {
 
             robotCentricDrive.setReverse(reverseButton.getShortToggle());
 
-            if (hookButton.getLongToggle()) {
-                if (!moved) {
-                    robot.hook.drive(true, false);
-                    sleep(MOTOR_SLEEP_TIME);
-                    robot.hook.drive(false, false);
-                    moved = true;
-                }
-                robot.servos.hook(hookButton.getLongToggle());
-            } else moved = false;
+//            if (hookButton.getLongToggle()) {
+//                if (!moved) {
+//                    robot.hook.drive(true, false);
+//                    sleep(MOTOR_SLEEP_TIME);
+//                    robot.hook.drive(false, false);
+//                    moved = true;
+//                }
+//                robot.servos.hook(hookButton.getLongToggle());
+//            } else moved = false;
+
+            robot.servos.hook(hookButton.getLongToggle());
+
 
             robot.servos.plane(planeButton.getLongToggle());
 
