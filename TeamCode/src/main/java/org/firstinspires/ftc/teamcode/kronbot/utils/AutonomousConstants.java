@@ -20,13 +20,15 @@ public final class AutonomousConstants {
         }
     }
 
-    public static Coordinates RedPixelLeft = new Coordinates(25, 5, 0);
-    public static Coordinates RedPixelMiddle = new Coordinates(38.5, -5, 0);
-    public static Coordinates RedPixelRight = new Coordinates(25, -15, 0);
+    public static Coordinates RedPixelLeft = new Coordinates(30, 0, 40);
+    public static Coordinates RedPixelMiddle = new Coordinates(26, 0, 0);
+    public static Coordinates RedPixelRight = new Coordinates(30, -3, -40);
+    public static Coordinates RedPixelForward = new Coordinates(10, 0, 0);
 
+    public static Coordinates GoBack = new Coordinates(5,0,90);
     public static Coordinates Parking = new Coordinates(25, 40, 0);
 
     public static Pose2d coordinatesConvert(Coordinates coord) {
-        return new Pose2d(coord.x, coord.y, coord.heading);
+        return new Pose2d(coord.x, coord.y, Math.toRadians(coord.heading));
     }
 }
