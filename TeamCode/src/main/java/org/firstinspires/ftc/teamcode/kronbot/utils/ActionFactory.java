@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants.c
 import static java.lang.Thread.sleep;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 
@@ -32,22 +33,33 @@ public class ActionFactory {
             pixelPose = coordinatesConvert(PixelLeft);
 
         Pose2d parkPose = new Pose2d(0, 0, 0);
+        Pose2d backPose = coordinatesConvert(Back);
         if (isClose) parkPose = coordinatesConvert(ClosePark);
         else parkPose = coordinatesConvert(FarPark);
 
-        Pose2d backPose = coordinatesConvert(Back);
+        if (isBlue) parkPose = new Pose2d(parkPose.position.x, -parkPose.position.y, -ClosePark.heading);
 
         SequentialAction action = new SequentialAction(
             drive.actionBuilder(drive.pose)
                 .lineToX(PixelForward.x)
                 .splineTo(new Vector2d(pixelPose.position.x, pixelPose.position.y), pixelPose.heading)
                 .build(),
-            drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(backPose.position.x, backPose.position.y), backPose.heading)
-//                    .strafeTo(new Vector2d(backPose.position.x, backPose.position.y))
-//                    .turnTo(backPose.heading)
-                .strafeTo(new Vector2d(isBlue ? -parkPose.position.x : parkPose.position.x, parkPose.position.y))
-                .build()
+            (drop) -> {
+                sleep.run();
+                return false;
+            }
+//            drive.actionBuilder(drive.pose)
+//                    .setReversed(true)
+//                    .lineToX(backPose.position.x)
+//                    .setReversed(false)
+//                    .build()
+
+//            drive.actionBuilder(drive.pose)
+//                .strafeToLinearHeading(new Vector2d(backPose.position.x, backPose.position.y), backPose.heading)
+////                    .strafeTo(new Vector2d(backPose.position.x, backPose.position.y))
+////                    .turnTo(backPose.heading)
+//                .strafeTo(new Vector2d(isBlue ? -parkPose.position.x : parkPose.position.x, parkPose.position.y))
+//                .build()
 //            (drop) -> {
 //                sleep.run();
 //                // raise slides

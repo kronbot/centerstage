@@ -18,10 +18,10 @@ public final class AutonomousConstants {
         }
     }
 
-    public static Coordinates PixelLeft = new Coordinates(30, 0, 40);
-    public static Coordinates PixelMiddle = new Coordinates(26, 0, 0);
-    public static Coordinates PixelRight = new Coordinates(30, 0, -40);
-    public static Coordinates PixelForward = new Coordinates(10, 0, 0);
+    public static Coordinates PixelLeft = new Coordinates(30, 2, 50);
+    public static Coordinates PixelMiddle = new Coordinates(30, 0, 0);
+    public static Coordinates PixelRight = new Coordinates(30, -2, -50);
+    public static Coordinates PixelForward = new Coordinates(12, 0, 0);
 
     public static Coordinates Back = new Coordinates(25,0,-90);
 
@@ -31,4 +31,7 @@ public final class AutonomousConstants {
     public static Pose2d coordinatesConvert(Coordinates coord) {
         return new Pose2d(coord.x, coord.y, Math.toRadians(coord.heading));
     }
+
+    public static double MOTOR_POWER = 0.2;
+    public static double MOTOR_SPIN_TIME = 1;
 }
