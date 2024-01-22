@@ -35,14 +35,17 @@ import java.util.List;
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 2; // in
+    public static double WHEEL_RADIUS = 0.73525; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y = 0; // Y is the strafe direction
+    public static double PARALLEL_X = 2.2636; // X is the up and down direction
+    public static double PARALLEL_Y = -5.375; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = 0;
-    public static double PERPENDICULAR_Y = 0;
+    public static double PERPENDICULAR_X = -6.20055;
+    public static double PERPENDICULAR_Y = 2.775;
+
+    public static double X_MULTIPLIER = 1.0076160113;
+    public static double Y_MULTIPLIER = 1.0165083464;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
@@ -85,8 +88,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-            encoderTicksToInches(parallelEncoder.getCurrentPosition()),
-            encoderTicksToInches(perpendicularEncoder.getCurrentPosition())
+            encoderTicksToInches(parallelEncoder.getCurrentPosition()) * X_MULTIPLIER,
+            encoderTicksToInches(perpendicularEncoder.getCurrentPosition()) * Y_MULTIPLIER
         );
     }
 
@@ -98,8 +101,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-            encoderTicksToInches(parallelEncoder.getCorrectedVelocity()),
-            encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity())
+            encoderTicksToInches(parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
+            encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER
         );
     }
 }
