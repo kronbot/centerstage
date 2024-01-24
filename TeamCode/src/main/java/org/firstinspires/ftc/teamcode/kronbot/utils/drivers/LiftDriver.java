@@ -54,12 +54,26 @@ public class LiftDriver {
         else setPower(power);
     }
 
+    public int getTargetPosition() { return liftMotor.getTargetPosition(); }
+
+    public boolean isBusy() {
+        return liftMotor.isBusy();
+    }
+
     public int getCurrentPosition() {
         return liftMotor.getCurrentPosition();
     }
 
     public void setTargetPosition(int position) {
         liftMotor.setTargetPosition(position);
+    }
+
+    public void runToPosition() {
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void runUsingEncoders() {
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void setPower(double power) {

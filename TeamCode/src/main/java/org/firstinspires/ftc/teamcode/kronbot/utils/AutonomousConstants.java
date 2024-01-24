@@ -18,22 +18,30 @@ public final class AutonomousConstants {
         }
     }
 
-    public static Coordinates StartPoseLeftRed = new Coordinates(-35, -70 + 15/2, 270);
-    public static Coordinates StartPoseRightRed = new Coordinates(12, -70 + 15/2, 270);
-    public static Coordinates StartPoseLeftBlue = new Coordinates(-35, 70 - 15/2, 90);
-    public static Coordinates StartPoseRightBlue = new Coordinates(12, 70 - 15/2, 90);
+    public static Coordinates StartPoseLeftRed = new Coordinates(-35, -67 + 15/2, 270);
+    public static Coordinates StartPoseRightRed = new Coordinates(12, -67 + 15/2, 270);
+    public static Coordinates StartPoseLeftBlue = new Coordinates(12, 67 - 15/2, 90);
+    public static Coordinates StartPoseRightBlue = new Coordinates(-35, 67 - 15/2, 90);
 
-    public static Coordinates PixelLeft = new Coordinates(-4, 31, 130);
-    public static Coordinates PixelMiddle = new Coordinates(0, 30, 90);
-    public static Coordinates PixelRight = new Coordinates(4, 31, 40);
+    public static Coordinates PixelLeft = new Coordinates(-4, 29, 130);
+    public static Coordinates PixelMiddle = new Coordinates(0, 28, 90);
+    public static Coordinates PixelRight = new Coordinates(6, 27, 40);
     public static Coordinates PixelForward = new Coordinates(0, 10, 0);
 
-    public static Coordinates Back = new Coordinates(0,-40,0);
+    public static Coordinates Back = new Coordinates(2,-40,0);
     public static Coordinates FarBack = new Coordinates(0, -59, 270);
 
-    public static Coordinates ClosePark = new Coordinates(45, -35, 180);
+    public static Coordinates Park = new Coordinates(48, -45, 180);
+
+    public static Coordinates CornerPark = new Coordinates(55, -60, 0);
+
+    public static Coordinates BackboardMiddle = new Coordinates(49, -32, 0);
+    public static Coordinates BackboardRight = new Coordinates(49, -25, 0);
+    public static Coordinates BackboardLeft = new Coordinates(49, -39, 0);
 
     public static Pose2d coordinatesConvert(Coordinates coord) {
         return new Pose2d(coord.x, coord.y, Math.toRadians(coord.heading));
     }
+
+    public static int SLIDES_COORDINATES = 1750;
 }

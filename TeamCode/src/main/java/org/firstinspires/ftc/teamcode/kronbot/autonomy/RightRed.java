@@ -39,7 +39,7 @@ public class RightRed extends LinearOpMode {
 
         detection.close();
 
-        TrajectorySequence trajectory = TrajectoryFactory.createTrajectory(drive, position, false, true);
+        TrajectorySequence trajectory = TrajectoryFactory.createTrajectory(drive, position, robot, telemetry, () -> {sleep(1000); return; }, false, true);
 
         waitForStart();
 

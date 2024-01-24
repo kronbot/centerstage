@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.kronbot.autonomy;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -41,7 +40,7 @@ public class LeftBlue extends LinearOpMode {
 
         detection.close();
 
-        TrajectorySequence trajectory = TrajectoryFactory.createTrajectory(drive, position, true, true);
+        TrajectorySequence trajectory = TrajectoryFactory.createTrajectory(drive, position, robot, telemetry, () -> {sleep(1000); return; }, true, true);
 
         waitForStart();
 
