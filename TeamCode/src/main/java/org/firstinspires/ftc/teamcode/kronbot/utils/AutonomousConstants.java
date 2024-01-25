@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.kronbot.utils;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-@Config
+//@Config
 public final class AutonomousConstants {
 
     public static class Coordinates {
@@ -23,17 +23,17 @@ public final class AutonomousConstants {
     public static Coordinates StartPoseLeftBlue = new Coordinates(12, 67 - 15/2, 90);
     public static Coordinates StartPoseRightBlue = new Coordinates(-35, 67 - 15/2, 90);
 
-    public static Coordinates PixelLeft = new Coordinates(-4, 29, 130);
+    public static Coordinates PixelLeft = new Coordinates(-5.5, 29, 130);
     public static Coordinates PixelMiddle = new Coordinates(0, 28, 90);
-    public static Coordinates PixelRight = new Coordinates(6, 27, 40);
+    public static Coordinates PixelRight = new Coordinates(6.5, 27, 40);
     public static Coordinates PixelForward = new Coordinates(0, 10, 0);
 
     public static Coordinates Back = new Coordinates(2,-40,0);
-    public static Coordinates FarBack = new Coordinates(0, -59, 270);
+    public static Coordinates FarBack = new Coordinates(0, -59, 90);
 
     public static Coordinates Park = new Coordinates(48, -45, 180);
 
-    public static Coordinates CornerPark = new Coordinates(55, -60, 0);
+    public static Coordinates CornerPark = new Coordinates(50, -60  , 0);
 
     public static Coordinates BackboardMiddle = new Coordinates(49, -32, 0);
     public static Coordinates BackboardRight = new Coordinates(49, -25, 0);

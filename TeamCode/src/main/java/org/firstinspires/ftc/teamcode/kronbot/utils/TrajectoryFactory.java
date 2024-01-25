@@ -74,7 +74,7 @@ public class TrajectoryFactory {
                         robot.lift.setTargetPosition(SLIDES_COORDINATES);
                         robot.lift.setPower(SLIDES_SPEED);
                         robot.lift.runToPosition();
-                        while (robot.lift.isBusy()) { telemetry.update(); }
+                        while (robot.lift.isBusy()) {}
                         robot.lift.setPower(REST_POWER);
                         robot.servos.arm(true);
                     })
@@ -82,6 +82,7 @@ public class TrajectoryFactory {
                     .lineToLinearHeading(new Pose2d(parkPose.getX(), parkPose.getY() * multiplier, parkPose.getHeading()))
                     .lineTo(new Vector2d(backboardPose.getX(), backboardPose.getY() * multiplier))
                     .addDisplacementMarker(() -> {
+                        sleep.run();
                         robot.servos.intakeSpinDown(true);
                         sleep.run();
                         sleep.run();
@@ -104,25 +105,34 @@ public class TrajectoryFactory {
                     .splineTo(new Vector2d(startPose.getX() + pixelCoordinates.x * multiplier, startPose.getY() + pixelCoordinates.y * multiplier), Math.toRadians(pixelCoordinates.heading * multiplier))
                     .setReversed(false)
                     .splineTo(new Vector2d(startPose.getX(), backPose.getY() * multiplier), Math.toRadians(backPose.getHeading() * multiplier))
-                    .turn(Math.toRadians(180 * multiplier))
                     .setReversed(true)
-                    .lineToConstantHeading(new Vector2d(parkPose.getX() - 30, backPose.getY() * multiplier))
-//                    .addTemporalMarker(SLIDES_TIME, () -> {
-//                        robot.lift.setTargetPosition(2000);
-//                        robot.lift.setPower(SLIDES_SPEED);
-//                        robot.lift.runToPosition();
-//                        while (robot.lift.isBusy()) { telemetry.update(); }
-//                        robot.lift.setPower(REST_POWER);
-//                    })
-                    .splineTo(new Vector2d(parkPose.getX(), parkPose.getY() * multiplier), 0)
-//                    .addTemporalMarker(SLIDES_TIME + SLIDES_WAIT_TIME, () -> {
-//                        robot.lift.setTargetPosition(0);
-//                        robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
-//                        robot.lift.runToPosition();
-//                        while (robot.lift.isBusy()) {}
-//                        robot.lift.setPower(REST_POWER);
-//                    })
-                    .setReversed(false)
+                    .lineTo(new Vector2d((parkPose.getX()) - 35, (backPose.getY() + 2) * multiplier))
+                    .addDisplacementMarker(() -> {
+                        robot.lift.setTargetPosition(SLIDES_COORDINATES);
+                        robot.lift.setPower(SLIDES_SPEED);
+                        robot.lift.runToPosition();
+                        while (robot.lift.isBusy()) { telemetry.update(); }
+                        robot.lift.setPower(REST_POWER);
+                        robot.servos.arm(true);
+                    })
+                    .turn(Math.toRadians(180 * multiplier))
+                    .lineTo(new Vector2d(backboardPose.getX() + 0.5, backboardPose.getY() * multiplier))
+                    .addDisplacementMarker(() -> {
+                        sleep.run();
+                        robot.servos.intakeSpinDown(true);
+                        sleep.run();
+                        sleep.run();
+                        robot.servos.intakeSpinDown(false);
+                        robot.servos.arm(false);
+                        sleep.run();
+                        robot.lift.setTargetPosition(0);
+                        robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
+                        robot.lift.runToPosition();
+                        while (robot.lift.isBusy()) {}
+                        robot.lift.setPower(REST_POWER);
+                    })
+                    .lineTo(new Vector2d(backboardPose.getX() - 2, cornerPose.getY() * multiplier))
+                    .lineTo(new Vector2d(cornerPose.getX(), cornerPose.getY() * multiplier))
                     .build();
         }
 
