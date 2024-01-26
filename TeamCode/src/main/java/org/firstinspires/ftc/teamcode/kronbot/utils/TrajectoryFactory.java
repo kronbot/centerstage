@@ -92,8 +92,8 @@ public class TrajectoryFactory {
                         robot.servos.arm(true);
                     })
                     .lineTo(new Vector2d(startPose.getX() + backPose.getX(), backPose.getY() * multiplier))
-                    .lineToLinearHeading(new Pose2d(parkPose.getX(), parkPose.getY() * multiplier, parkPose.getHeading()))
-                    .lineTo(new Vector2d(backboardPose.getX(), backboardPose.getY() * multiplier))
+                    .lineToLinearHeading(new Pose2d(parkPose.getX(), (parkPose.getY()) * multiplier, parkPose.getHeading()))
+                    .lineTo(new Vector2d(backboardPose.getX(), (backboardPose.getY()+5) * multiplier))
                     .addDisplacementMarker(() -> {
                         sleep.run();
                         robot.servos.intakeSpinDown(true);
@@ -126,14 +126,14 @@ public class TrajectoryFactory {
             trajectories.add(drive.trajectorySequenceBuilder(
                     new Pose2d(parkPose.getX() - 35, (backPose.getY() + 2) * multiplier, parkPose.getHeading()))
                     .setReversed(true)
-                    .lineTo(new Vector2d(backboardPose.getX() + 0.5, backboardPose.getY() * multiplier + backBoardOffset))
+                    .lineTo(new Vector2d(backboardPose.getX() + 0.5, (backboardPose.getY()+2) * multiplier + backBoardOffset))
                     .build());
 
             trajectories.add(drive.trajectorySequenceBuilder(
-                    new Pose2d(backboardPose.getX() + 0.5, backboardPose.getY() * multiplier, 0))
+                    new Pose2d(backboardPose.getX() + 0.5, backboardPose.getY() * multiplier, parkPose.getHeading()))
                     .setReversed(true)
-                    .lineTo(new Vector2d(backboardPose.getX() - 10, cornerPose.getY() * multiplier))
-                    .lineTo(new Vector2d(cornerPose.getX(), cornerPose.getY() * multiplier))
+                    .lineTo(new Vector2d(backboardPose.getX() - 5, backboardPose.getY() * multiplier))
+                    .lineTo(new Vector2d(backboardPose.getX(), cornerPose.getY() * +multiplier))
                     .build());
         }
 
