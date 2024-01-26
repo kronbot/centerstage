@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.TrajectoryFactory;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 
+import java.util.List;
+
 @Autonomous(name = "Left Red", group = Constants.MAIN_GROUP)
 public class LeftRed extends LinearOpMode {
     GameElementDetection detection;
@@ -39,11 +41,15 @@ public class LeftRed extends LinearOpMode {
 
         detection.close();
 
-        TrajectorySequence trajectory = TrajectoryFactory.createTrajectory(drive, position, robot, telemetry, () -> {sleep(1000); return; }, false, false);
+        List<TrajectorySequence> trajectory = TrajectoryFactory.createTrajectory(drive, position, robot, telemetry, () -> {sleep(1000); return; }, false, false);
 
         waitForStart();
 
-        drive.followTrajectorySequence(trajectory);
+        drive.followTrajectorySequence(trajectory.get(0));
+        TrajectoryFactory.raiseSlides(robot);
+        drive.followTrajectorySequence(trajectory.get(1));
+        TrajectoryFactory.resetSlides(robot, () -> { sleep(1000); });
+        drive.followTrajectorySequence(trajectory.get(2));
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.update();

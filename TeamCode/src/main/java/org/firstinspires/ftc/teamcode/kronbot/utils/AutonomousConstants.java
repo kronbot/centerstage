@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.kronbot.utils;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-//@Config
+@Config
 public final class AutonomousConstants {
 
     public static class Coordinates {
@@ -29,11 +29,12 @@ public final class AutonomousConstants {
     public static Coordinates PixelForward = new Coordinates(0, 10, 0);
 
     public static Coordinates Back = new Coordinates(2,-40,0);
-    public static Coordinates FarBack = new Coordinates(0, -59, 90);
+    public static Coordinates FarBack = new Coordinates(-5, -58, 90);
 
     public static Coordinates Park = new Coordinates(48, -45, 180);
 
     public static Coordinates CornerPark = new Coordinates(50, -60  , 0);
+    public static Coordinates FarCornerPark = new Coordinates(55, -12, 180);
 
     public static Coordinates BackboardMiddle = new Coordinates(49, -32, 0);
     public static Coordinates BackboardRight = new Coordinates(49, -25, 0);
@@ -43,5 +44,5 @@ public final class AutonomousConstants {
         return new Pose2d(coord.x, coord.y, Math.toRadians(coord.heading));
     }
 
-    public static int SLIDES_COORDINATES = 1750;
+    public static int SLIDES_COORDINATES = 1850;
 }
