@@ -82,36 +82,26 @@ public class TrajectoryFactory {
                     .setReversed(true)
                     .lineTo(new Vector2d(startPose.getX(), startPose.getY() + PixelForward.y * multiplier))
                     .splineTo(new Vector2d(startPose.getX() + pixelCoordinates.x * multiplier, startPose.getY() + pixelCoordinates.y * multiplier), Math.toRadians(pixelCoordinates.heading * multiplier))
+
+//                    .lineTo(new Vector2d(startPose.getX(), startPose.getY() + PixelForward.y * multiplier))
+//                    .splineTo(new Vector2d(startPose.getX() + pixelCoordinates.x * multiplier, startPose.getY() + pixelCoordinates.y * multiplier), Math.toRadians(pixelCoordinates.heading * multiplier))
                     .setReversed(false)
-                    .addDisplacementMarker(() -> {
-                        robot.lift.setTargetPosition(SLIDES_COORDINATES);
-                        robot.lift.setPower(SLIDES_SPEED);
-                        robot.lift.runToPosition();
-                        while (robot.lift.isBusy()) {}
-                        robot.lift.setPower(REST_POWER);
-                        robot.servos.arm(true);
-                    })
-                    .lineTo(new Vector2d(startPose.getX() + backPose.getX(), backPose.getY() * multiplier))
-                    .lineToLinearHeading(new Pose2d(parkPose.getX(), (parkPose.getY()) * multiplier, parkPose.getHeading()))
-                    .lineTo(new Vector2d(backboardPose.getX(), (backboardPose.getY()+5) * multiplier))
-                    .addDisplacementMarker(() -> {
-                        sleep.run();
-                        robot.servos.intakeSpinDown(true);
-                        sleep.run();
-                        sleep.run();
-                        robot.servos.intakeSpinDown(false);
-                        robot.servos.arm(false);
-                        sleep.run();
-                        robot.lift.setTargetPosition(0);
-                        robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
-                        robot.lift.runToPosition();
-                        while (robot.lift.isBusy()) {}
-                        robot.lift.setPower(REST_POWER);
-                    })
+                    .lineTo(new Vector2d(startPose.getX() + backPose.getX()+3, (backPose.getY()-3) * multiplier))
+                    .build());
+
+            trajectories.add(drive.trajectorySequenceBuilder(new Pose2d(startPose.getX() + backPose.getX()+3, (backPose.getY()-3) * multiplier, parkPose.getHeading()))
+                    .setReversed(false)
+                    .lineToLinearHeading(new Pose2d(parkPose.getX(), parkPose.getY() * multiplier, parkPose.getHeading()))
+                    .lineTo(new Vector2d(backboardPose.getX(), (backboardPose.getY()-0.5) * multiplier))
+                    .build());
+
+            trajectories.add(drive.trajectorySequenceBuilder(new Pose2d(backboardPose.getX(),backboardPose.getY()*multiplier, parkPose.getHeading()))
                     .lineTo(new Vector2d(backboardPose.getX() - 2, cornerPose.getY() * multiplier))
                     .lineTo(new Vector2d(cornerPose.getX(), cornerPose.getY() * multiplier))
                     .build());
-        } else {
+        }
+        else
+        {
             trajectories.add(drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
                     .lineTo(new Vector2d(startPose.getX(), startPose.getY() + PixelForward.y * multiplier))
@@ -138,6 +128,32 @@ public class TrajectoryFactory {
         }
 
         return trajectories;
+    }
+
+    public static void raiseSlidesClose(KronBot robot)
+    {
+        robot.lift.setTargetPosition(SLIDES_COORDINATES);
+        robot.lift.setPower(SLIDES_SPEED);
+        robot.lift.runToPosition();
+        while (robot.lift.isBusy()) {}
+        robot.lift.setPower(REST_POWER);
+        robot.servos.arm(true);
+    }
+
+    public static void resetSlidesClose(KronBot robot, Runnable sleep)
+    {
+        sleep.run();
+        robot.servos.intakeSpinDown(true);
+        sleep.run();
+        sleep.run();
+        robot.servos.intakeSpinDown(false);
+        robot.servos.arm(false);
+        sleep.run();
+        robot.lift.setTargetPosition(0);
+        robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
+        robot.lift.runToPosition();
+        while (robot.lift.isBusy()) {}
+        robot.lift.setPower(REST_POWER);
     }
 
     public static void raiseSlides(KronBot robot) {

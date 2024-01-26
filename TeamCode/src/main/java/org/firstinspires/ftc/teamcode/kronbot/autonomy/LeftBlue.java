@@ -47,6 +47,10 @@ public class LeftBlue extends LinearOpMode {
         waitForStart();
 
         drive.followTrajectorySequence(trajectory.get(0));
+        TrajectoryFactory.raiseSlidesClose(robot);
+        drive.followTrajectorySequence(trajectory.get(1));
+        TrajectoryFactory.resetSlidesClose(robot, () -> { sleep(1000); });
+        drive.followTrajectorySequence(trajectory.get(2));
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.update();
