@@ -23,9 +23,9 @@ public final class AutonomousConstants {
     public static Coordinates StartPoseLeftBlue = new Coordinates(12, 67 - 15/2, 90);
     public static Coordinates StartPoseRightBlue = new Coordinates(-35, 67 - 15/2, 90);
 
-    public static Coordinates PixelLeft = new Coordinates(-5.5, 29, 130);
+    public static Coordinates PixelLeft = new Coordinates(-4.5, 29, 130);
     public static Coordinates PixelMiddle = new Coordinates(0, 28, 90);
-    public static Coordinates PixelRight = new Coordinates(6.5, 27, 40);
+    public static Coordinates PixelRight = new Coordinates(5.5, 27, 40);
     public static Coordinates PixelForward = new Coordinates(0, 10, 0);
 
     public static Coordinates Back = new Coordinates(2,-40,0);
@@ -37,7 +37,7 @@ public final class AutonomousConstants {
     public static Coordinates FarCornerPark = new Coordinates(55, -12, 180);
 
     public static Coordinates BackboardMiddle = new Coordinates(49, -32, 0);
-    public static Coordinates BackboardRight = new Coordinates(49, -25, 0);
+    public static Coordinates BackboardRight = new Coordinates(49, -24.5, 0);
     public static Coordinates BackboardLeft = new Coordinates(49, -39, 0);
 
     public static Pose2d coordinatesConvert(Coordinates coord) {

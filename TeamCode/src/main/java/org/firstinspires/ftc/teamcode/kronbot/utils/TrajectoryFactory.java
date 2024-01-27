@@ -82,9 +82,6 @@ public class TrajectoryFactory {
                     .setReversed(true)
                     .lineTo(new Vector2d(startPose.getX(), startPose.getY() + PixelForward.y * multiplier))
                     .splineTo(new Vector2d(startPose.getX() + pixelCoordinates.x * multiplier, startPose.getY() + pixelCoordinates.y * multiplier), Math.toRadians(pixelCoordinates.heading * multiplier))
-
-//                    .lineTo(new Vector2d(startPose.getX(), startPose.getY() + PixelForward.y * multiplier))
-//                    .splineTo(new Vector2d(startPose.getX() + pixelCoordinates.x * multiplier, startPose.getY() + pixelCoordinates.y * multiplier), Math.toRadians(pixelCoordinates.heading * multiplier))
                     .setReversed(false)
                     .lineTo(new Vector2d(startPose.getX() + backPose.getX()+3, (backPose.getY()-3) * multiplier))
                     .build());
@@ -122,7 +119,7 @@ public class TrajectoryFactory {
             trajectories.add(drive.trajectorySequenceBuilder(
                     new Pose2d(backboardPose.getX() + 0.5, backboardPose.getY() * multiplier, parkPose.getHeading()))
                     .setReversed(true)
-                    .lineTo(new Vector2d(backboardPose.getX() - 5, backboardPose.getY() * multiplier))
+                    .lineTo(new Vector2d(backboardPose.getX() - 3, backboardPose.getY() * multiplier))
                     .lineTo(new Vector2d(backboardPose.getX(), cornerPose.getY() * +multiplier))
                     .build());
         }
@@ -142,13 +139,10 @@ public class TrajectoryFactory {
 
     public static void resetSlidesClose(KronBot robot, Runnable sleep)
     {
-        sleep.run();
         robot.servos.intakeSpinDown(true);
-        sleep.run();
         sleep.run();
         robot.servos.intakeSpinDown(false);
         robot.servos.arm(false);
-        sleep.run();
         robot.lift.setTargetPosition(0);
         robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
         robot.lift.runToPosition();
