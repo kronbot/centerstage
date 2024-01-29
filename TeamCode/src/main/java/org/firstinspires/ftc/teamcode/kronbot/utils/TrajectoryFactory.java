@@ -137,6 +137,17 @@ public class TrajectoryFactory {
         robot.servos.arm(true);
     }
 
+
+    public static void raiseSlidesClose(KronBot robot, int position)
+    {
+        robot.lift.setTargetPosition(SLIDES_COORDINATES);
+        robot.lift.setPower(position);
+        robot.lift.runToPosition();
+        while (robot.lift.isBusy()) {}
+        robot.lift.setPower(REST_POWER);
+        robot.servos.arm(true);
+    }
+
     public static void resetSlidesClose(KronBot robot, Runnable sleep)
     {
         robot.servos.intakeSpinDown(true);
@@ -160,10 +171,27 @@ public class TrajectoryFactory {
     }
 
     public static void resetSlides(KronBot robot, Runnable sleep) {
-        sleep.run();
         robot.servos.intakeSpinDown(true);
         sleep.run();
         sleep.run();
+        robot.servos.arm(false);
+        robot.servos.intakeSpinDown(false);
+        sleep.run();
+        robot.lift.setTargetPosition(0);
+        robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
+        robot.lift.runToPosition();
+        while (robot.lift.isBusy()) {}
+        robot.lift.setPower(REST_POWER);
+    }
+
+    public static void takeOut(KronBot robot, Runnable sleep) {
+        robot.servos.intakeSpinDown(true);
+        sleep.run();
+        sleep.run();
+        robot.servos.arm(false);
+    }
+
+    public static void onlyReset(KronBot robot, Runnable sleep) {
         robot.servos.intakeSpinDown(false);
         robot.servos.arm(false);
         sleep.run();
