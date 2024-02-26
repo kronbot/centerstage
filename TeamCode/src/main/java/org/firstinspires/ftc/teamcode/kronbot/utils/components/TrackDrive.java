@@ -30,7 +30,7 @@ public class TrackDrive {
 
     public void run() {
         double y = -gamepad.left_stick_y;
-        double r = -gamepad.right_stick_x;
+        double r = gamepad.right_stick_x;
 
         y = addons(y) * reverse;
         r = addons(r);

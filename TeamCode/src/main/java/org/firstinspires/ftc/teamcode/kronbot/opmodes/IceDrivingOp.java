@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.utils.components.TrackDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
@@ -18,11 +19,9 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
  */
 
 @TeleOp(name = "Ice Driving", group = Constants.MAIN_GROUP)
-@Disabled
 public class IceDrivingOp extends LinearOpMode {
     private final KronBot robot = new KronBot();
     TrackDrive trackDrive;
-    ServoDriver servoDriver;
     Gamepad gamepad;
 
     @Override
@@ -43,14 +42,12 @@ public class IceDrivingOp extends LinearOpMode {
         if(isStopRequested()) return;
 
         Button reverseButton = new Button();
-        Button intakeButton = new Button();
 
         while(!isStopRequested() && opModeIsActive()) {
             reverseButton.updateButton(gamepad.circle);
             reverseButton.longPress();
 
-            intakeButton.updateButton(gamepad.dpad_up);
-            intakeButton.shortPress();
+            robot.servos.iceArm(gamepad.right_bumper, gamepad.left_bumper);
 
             trackDrive.setReverse(reverseButton.getLongToggle());
             trackDrive.run();

@@ -37,7 +37,7 @@ public static Coordinates PixelLeft = new Coordinates(-4.5, 29, 130);
 
     public static Coordinates CornerPark = new Coordinates(50, -62, 0);
 //    public static Coordinates FarCornerPark = new Coordinates(55, -12, 180);
-public static Coordinates FarCornerPark = new Coordinates(48, -30, 180);
+    public static Coordinates FarCornerPark = new Coordinates(48, -30, 180);
 
     public static Coordinates BackboardMiddle = new Coordinates(48, -32.5, 0);
     public static Coordinates BackboardRight = new Coordinates(49, -24.5, 0);

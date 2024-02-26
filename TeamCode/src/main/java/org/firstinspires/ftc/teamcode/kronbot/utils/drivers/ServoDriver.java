@@ -99,4 +99,11 @@ public class ServoDriver {
         if (Math.abs(value) < CONTROLLER_DEADZONE) return 0;
         return value;
     }
+
+    public void iceArm(boolean activate, boolean activate2) {
+        if (activate && armServo1.getPosition() > 0.25)
+            armServo1.setPosition(armServo1.getPosition() - 0.001);
+        if (activate2 && armServo1.getPosition() < 0.65)
+            armServo1.setPosition(armServo1.getPosition() + 0.001);
+    }
 }
