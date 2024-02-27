@@ -27,13 +27,6 @@ public class ServoDriver {
     Servo planeServo;
 
     public void init(Servo armServo1, Servo armServo2, Servo hookServo1, Servo hookServo2, Servo intakeServo, Servo planeServo) {
-        armServo1.setPWMRange(500, 2500);
-        armServo2.setPWMRange(500, 2500);
-        hookServo1.setPWMRange(500, 2500);
-        hookServo2.setPWMRange(500,2500);
-        intakeServo.setPWMRange(500,2500);
-        planeServo.setPWMRange(500, 2500);
-
         this.armServo1 = armServo1;
         this.armServo2 = armServo2;
         this.hookServo1 = hookServo1;

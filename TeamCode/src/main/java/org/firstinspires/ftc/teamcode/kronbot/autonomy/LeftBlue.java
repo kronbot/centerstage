@@ -24,7 +24,7 @@ public class LeftBlue extends LinearOpMode {
 
     @Override
     public void runOpMode()  throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.initAutonomy(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         FtcDashboard dashboard = FtcDashboard.getInstance();

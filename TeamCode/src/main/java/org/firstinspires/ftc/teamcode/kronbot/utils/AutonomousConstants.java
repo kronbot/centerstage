@@ -23,9 +23,7 @@ public final class AutonomousConstants {
     public static Coordinates StartPoseLeftBlue = new Coordinates(12, 67 - 15/2, 90);
     public static Coordinates StartPoseRightBlue = new Coordinates(-35, 67 - 15/2, 90);
 
-//    public static Coordinates PixelLeft = new Coordinates(-4.5, 29, 130);
-public static Coordinates PixelLeft = new Coordinates(-4.5, 29, 130);
-
+    public static Coordinates PixelLeft = new Coordinates(-4.5, 29, 130);
     public static Coordinates PixelMiddle = new Coordinates(0, 28, 90);
     public static Coordinates PixelRight = new Coordinates(5, 27, 40);
     public static Coordinates PixelForward = new Coordinates(0, 10, 0);

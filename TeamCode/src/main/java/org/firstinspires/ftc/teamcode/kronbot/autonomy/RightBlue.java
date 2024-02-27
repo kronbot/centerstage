@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.kronbot.autonomy;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -24,7 +23,7 @@ public class RightBlue extends LinearOpMode {
 
     @Override
     public void runOpMode()  throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.initAutonomy(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         FtcDashboard dashboard = FtcDashboard.getInstance();

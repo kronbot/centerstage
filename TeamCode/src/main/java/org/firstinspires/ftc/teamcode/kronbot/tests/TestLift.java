@@ -14,13 +14,12 @@ import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
  */
 @Disabled
 @TeleOp(name = "Slide Test", group = Constants.TEST_GROUP)
-public class TestSlide extends LinearOpMode {
+public class TestLift extends LinearOpMode {
     private final KronBot robot = new KronBot();
-
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.initLift(hardwareMap);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");

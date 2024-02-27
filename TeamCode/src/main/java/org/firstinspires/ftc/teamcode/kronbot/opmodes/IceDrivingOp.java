@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.kronbot.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.utils.components.TrackDrive;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
-import org.firstinspires.ftc.teamcode.kronbot.utils.drivers.ServoDriver;
 import org.firstinspires.ftc.teamcode.kronbot.utils.wrappers.Button;
 
 /**
@@ -26,13 +23,14 @@ public class IceDrivingOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.initIceMode(hardwareMap);
 
         gamepad = gamepad1;
 
         trackDrive = new TrackDrive(robot, gamepad);
 
-        waitForStart();
+        Button reverseButton = new Button();
+        Button clawButton = new Button();
 
         while(!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -41,14 +39,14 @@ public class IceDrivingOp extends LinearOpMode {
 
         if(isStopRequested()) return;
 
-        Button reverseButton = new Button();
-
         while(!isStopRequested() && opModeIsActive()) {
+            clawButton.updateButton(gamepad.cross);
+            clawButton.shortPress();
+            robot.armServo.runIncrement(gamepad.right_bumper, gamepad.left_bumper);
+            robot.clawServo.run(clawButton.getShortToggle());
+
             reverseButton.updateButton(gamepad.circle);
             reverseButton.longPress();
-
-            robot.servos.iceArm(gamepad.right_bumper, gamepad.left_bumper);
-
             trackDrive.setReverse(reverseButton.getLongToggle());
             trackDrive.run();
 

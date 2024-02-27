@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
 import org.firstinspires.ftc.teamcode.kronbot.detection.GameElementDetection;
-import org.firstinspires.ftc.teamcode.kronbot.utils.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.Constants;
 import org.firstinspires.ftc.teamcode.kronbot.utils.TrajectoryFactory;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
@@ -23,7 +22,11 @@ public class RightRed extends LinearOpMode {
 
     @Override
     public void runOpMode()  throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.initMotors(hardwareMap);
+        robot.initLift(hardwareMap);
+        robot.initIntake(hardwareMap);
+        robot.initIMU(hardwareMap);
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         FtcDashboard dashboard = FtcDashboard.getInstance();

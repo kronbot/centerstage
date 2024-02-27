@@ -134,7 +134,8 @@ public class TrajectoryFactory {
         robot.lift.runToPosition();
         while (robot.lift.isBusy()) {}
         robot.lift.setPower(REST_POWER);
-        robot.servos.arm(true);
+        robot.armServoLeft.run(true);
+        robot.armServoRight.run(true);
     }
 
 
@@ -145,15 +146,17 @@ public class TrajectoryFactory {
         robot.lift.runToPosition();
         while (robot.lift.isBusy()) {}
         robot.lift.setPower(REST_POWER);
-        robot.servos.arm(true);
+        robot.armServoLeft.run(true);
+        robot.armServoRight.run(true);
     }
 
     public static void resetSlidesClose(KronBot robot, Runnable sleep)
     {
-        robot.servos.intakeSpinDown(true);
+        robot.intakeServo.runContinuous(false, true);
         sleep.run();
-        robot.servos.intakeSpinDown(false);
-        robot.servos.arm(false);
+        robot.intakeServo.runContinuous(false, false);
+        robot.armServoLeft.run(false);
+        robot.armServoRight.run(false);
         robot.lift.setTargetPosition(0);
         robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
         robot.lift.runToPosition();
@@ -167,15 +170,17 @@ public class TrajectoryFactory {
         robot.lift.runToPosition();
         while (robot.lift.isBusy()) {}
         robot.lift.setPower(REST_POWER);
-        robot.servos.arm(true);
+        robot.armServoLeft.run(true);
+        robot.armServoRight.run(true);
     }
 
     public static void resetSlides(KronBot robot, Runnable sleep) {
-        robot.servos.intakeSpinDown(true);
+        robot.intakeServo.runContinuous(false, true);
         sleep.run();
         sleep.run();
-        robot.servos.arm(false);
-        robot.servos.intakeSpinDown(false);
+        robot.armServoLeft.run(false);
+        robot.armServoRight.run(false);
+        robot.intakeServo.runContinuous(false, false);
         sleep.run();
         robot.lift.setTargetPosition(0);
         robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
@@ -185,15 +190,17 @@ public class TrajectoryFactory {
     }
 
     public static void takeOut(KronBot robot, Runnable sleep) {
-        robot.servos.intakeSpinDown(true);
+        robot.intakeServo.runContinuous(false, true);
         sleep.run();
         sleep.run();
-        robot.servos.arm(false);
+        robot.armServoLeft.run(false);
+        robot.armServoRight.run(false);
     }
 
     public static void onlyReset(KronBot robot, Runnable sleep) {
-        robot.servos.intakeSpinDown(false);
-        robot.servos.arm(false);
+        robot.intakeServo.runContinuous(false, false);
+        robot.armServoLeft.run(false);
+        robot.armServoRight.run(false);
         sleep.run();
         robot.lift.setTargetPosition(0);
         robot.lift.setPower(SLIDES_SPEED * LIFT_REVERSE_CONSTANT);
