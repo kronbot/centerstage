@@ -39,15 +39,14 @@ public class Servo {
     }
 
     public void init(String name, boolean continuousMode, boolean isReversed, double min, double max, double start) {
-        setPWMRange(500, 2500);
-        setIncrement(0.001);
-        setBoundaries(min, max);
-        setPosition(start);
-
         this.continuousMode = continuousMode;
         if (continuousMode) continuousServo = hardwareMap.get(CRServoImplEx.class, name);
         else servo = hardwareMap.get(ServoImplEx.class, name);
 
+        setPWMRange(500, 2500);
+        setIncrement(0.001);
+        setBoundaries(min, max);
+        setPosition(start);
         setReversed(isReversed);
     }
 

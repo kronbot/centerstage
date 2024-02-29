@@ -73,18 +73,23 @@ public class KronBot {
     public void initArm(HardwareMap hardwareMap) {
         armServoLeft = new Servo(hardwareMap);
         armServoLeft.init("armLeftServo", false, false, Constants.ARM1_POSITION, Constants.ARM1_HIGH, Constants.ARM1_INIT_POS);
-        armServoRight = new Servo(hardwareMap);
-        armServoRight.init("armRightServo", false, true, Constants.ARM2_HIGH, Constants.ARM2_POSITION, Constants.ARM2_INIT_POS);
+//        armServoRight = new Servo(hardwareMap);
+//        armServoRight.init("armRightServo", false, true, Constants.ARM2_HIGH, Constants.ARM2_POSITION, Constants.ARM2_INIT_POS);
     }
 
     public void initSingleArm(HardwareMap hardwareMap) {
         armServo = new Servo(hardwareMap);
-        armServo.init("armSingleServo", false, false, 0, 90, 0);
+        armServo.init("armSingleServo", false, false, 60, 90, 60);
     }
 
     public void initClaw(HardwareMap hardwareMap) {
         clawServo = new Servo(hardwareMap);
-        clawServo.init("clawServo", false, false, 0, 90, 0);
+        clawServo.init("clawServo", false, false, 0, 80, 0);
+    }
+
+    public void initIntakeServo(HardwareMap hardwareMap) {
+        intakeServo = new Servo(hardwareMap);
+        intakeServo.init("intakeServo", false, false, 0, 90, 0);
     }
 
     public void initAutonomy(HardwareMap hardwareMap) {
@@ -107,9 +112,9 @@ public class KronBot {
 
     public void initIceMode(HardwareMap hardwareMap) {
         initMotors(hardwareMap);
-        initSingleArm(hardwareMap);
-        initClaw(hardwareMap);
-        initIMU(hardwareMap);
         initArm(hardwareMap);
+        initClaw(hardwareMap);
+//        initIntakeServo(hardwareMap);
+//        initIMU(hardwareMap);
     }
 }

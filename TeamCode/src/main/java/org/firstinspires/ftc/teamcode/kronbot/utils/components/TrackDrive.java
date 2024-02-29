@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.kronbot.utils.Constants.ROBOT_SPEED
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.kronbot.KronBot;
@@ -24,8 +25,7 @@ public class TrackDrive {
         this.robot = robot;
         this.gamepad = gamepad;
 
-        robot.motors.leftRear.setDirection(DcMotorEx.Direction.REVERSE);
-        robot.motors.leftFront.setDirection(DcMotorEx.Direction.REVERSE);
+        robot.motors.leftRear.setDirection(DcMotorEx.Direction.FORWARD);
     }
 
     public void run() {

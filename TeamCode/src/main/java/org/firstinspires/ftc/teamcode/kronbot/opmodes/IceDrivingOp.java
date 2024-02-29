@@ -30,7 +30,7 @@ public class IceDrivingOp extends LinearOpMode {
         trackDrive = new TrackDrive(robot, gamepad);
 
         Button reverseButton = new Button();
-        Button clawButton = new Button();
+        Button intakeButton = new Button();
 
         while(!isStopRequested() && !opModeIsActive()) {
             telemetry.addLine("Initialization Ready");
@@ -40,10 +40,15 @@ public class IceDrivingOp extends LinearOpMode {
         if(isStopRequested()) return;
 
         while(!isStopRequested() && opModeIsActive()) {
-            clawButton.updateButton(gamepad.cross);
-            clawButton.shortPress();
-            robot.armServo.runIncrement(gamepad.right_bumper, gamepad.left_bumper);
-            robot.clawServo.run(clawButton.getShortToggle());
+//            intakeButton.updateButton(gamepad.cross);
+//            intakeButton.shortPress();
+//            robot.intakeServo.run(intakeButton.getShortToggle());
+
+            robot.clawServo.runIncrement(gamepad.dpad_up, gamepad.dpad_down);
+
+            robot.armServoLeft.runIncrement(gamepad.right_bumper, gamepad.left_bumper);
+            if(gamepad.right_bumper && robot.armServoLeft.getPosition() != Constants.ARM1_HIGH) robot.armServoLeft.setPosition(Constants.ARM1_HIGH);
+            if(gamepad.left_bumper && robot.armServoLeft.getPosition() != Constants.ARM1_POSITION) robot.armServoLeft.setPosition(Constants.ARM1_POSITION);
 
             reverseButton.updateButton(gamepad.circle);
             reverseButton.longPress();
