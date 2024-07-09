@@ -48,7 +48,7 @@ public class KronBot {
         hookServoLeft = new Servo(hardwareMap);
         hookServoLeft.init("hookLeftServo", false, false, Constants.HOOK1_INIT, Constants.HOOK1_POS, Constants.HOOK1_2POS);
         hookServoRight = new Servo(hardwareMap);
-        hookServoRight.init("hookRightServo", false, true, Constants.HOOK2_INIT, Constants.HOOK2_POS, Constants.HOOK2_2POS);
+        hookServoRight.init("hookRightServo", false, false, Constants.HOOK2_INIT, Constants.HOOK2_POS, Constants.HOOK2_2POS);
     }
 
     public void initIntake(HardwareMap hardwareMap) {
@@ -61,7 +61,7 @@ public class KronBot {
 
     public void initPlane(HardwareMap hardwareMap) {
         planeServo = new Servo(hardwareMap);
-        planeServo.init("planeServo", false, false);
+        planeServo.init("planeServo", false, false, Constants.PLANE_START, Constants.PLANE_END, Constants.PLANE_START);
     }
 
     public void initIMU(HardwareMap hardwareMap) {
@@ -72,9 +72,9 @@ public class KronBot {
 
     public void initArm(HardwareMap hardwareMap) {
         armServoLeft = new Servo(hardwareMap);
-        armServoLeft.init("armLeftServo", false, false, Constants.ARM1_POSITION, Constants.ARM1_HIGH, Constants.ARM1_INIT_POS);
-//        armServoRight = new Servo(hardwareMap);
-//        armServoRight.init("armRightServo", false, true, Constants.ARM2_HIGH, Constants.ARM2_POSITION, Constants.ARM2_INIT_POS);
+        armServoLeft.init("armLeftServo", false, false, Constants.ARM1_INIT_POS, Constants.ARM1_POSITION, Constants.ARM1_INIT_POS);
+        armServoRight = new Servo(hardwareMap);
+        armServoRight.init("armRightServo", false, true, Constants.ARM2_POSITION, Constants.ARM2_HIGH, Constants.ARM2_INIT_POS);
     }
 
     public void initSingleArm(HardwareMap hardwareMap) {

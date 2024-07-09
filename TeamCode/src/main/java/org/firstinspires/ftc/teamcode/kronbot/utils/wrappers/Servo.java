@@ -25,15 +25,14 @@ public class Servo {
         this.hardwareMap = hardwareMap;
     }
 
-    public void init(String name, boolean continuousMode, boolean isReversed) {
+    public void init(String name, boolean continuousMode, boolean isReversed) {       this.continuousMode = continuousMode;
+        if (continuousMode) continuousServo = hardwareMap.get(CRServoImplEx.class, name);
+        else servo = hardwareMap.get(ServoImplEx.class, name);
+
         setPWMRange(500, 2500);
         setIncrement(0.001);
         setBoundaries(0, 1);
         setPosition(0);
-
-        this.continuousMode = continuousMode;
-        if (continuousMode) continuousServo = hardwareMap.get(CRServoImplEx.class, name);
-        else servo = hardwareMap.get(ServoImplEx.class, name);
 
         setReversed(isReversed);
     }
@@ -44,7 +43,7 @@ public class Servo {
         else servo = hardwareMap.get(ServoImplEx.class, name);
 
         setPWMRange(500, 2500);
-        setIncrement(0.001);
+        setIncrement(0.01);
         setBoundaries(min, max);
         setPosition(start);
         setReversed(isReversed);

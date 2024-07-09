@@ -70,6 +70,7 @@ public class MainDrivingOp extends LinearOpMode {
                 hookButton.resetToggles();
                 hook2Button.resetToggles();
             }
+
             robot.hook.drive(utilityGamepad.left_bumper, utilityGamepad.right_bumper);
             if (hook2Button.getShortToggle() && areHooksActivated) {
                 robot.hookServoLeft.setMaxPosition();
@@ -91,14 +92,16 @@ public class MainDrivingOp extends LinearOpMode {
             // Lift
             robot.lift.run(utilityGamepad.right_trigger - utilityGamepad.left_trigger);
 
-            // Arm
+//             Arm
             if (robot.lift.getCurrentPosition() > LIFT_INIT_POSITION) {
+                armButton.updateButton(utilityGamepad.square);
+                armButton.shortPress();
                 armHighButton.updateButton(utilityGamepad.dpad_right);
                 armHighButton.longPress();
             }
             if (!armHighButton.getLongToggle()) {
-                robot.armServoLeft.run(armButton.getShortToggle());
-                robot.armServoRight.run(armButton.getShortToggle());
+                robot.armServoLeft.run(!armButton.getShortToggle());
+                robot.armServoRight.run(!armButton.getShortToggle());
             } else if (armHighButton.getLongToggle()) {
                 robot.armServoLeft.setPosition(Constants.ARM1_HIGH);
                 robot.armServoRight.setPosition(Constants.ARM2_HIGH);
