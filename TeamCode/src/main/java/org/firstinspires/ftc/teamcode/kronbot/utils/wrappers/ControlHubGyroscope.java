@@ -37,7 +37,7 @@ public class ControlHubGyroscope {
         this.imu = hardwareMap.get(BHI260IMU.class, "imu");
 
         ImuOrientationOnRobot imuOrientationOnRobot =
-            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
 
         BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(imuOrientationOnRobot);
