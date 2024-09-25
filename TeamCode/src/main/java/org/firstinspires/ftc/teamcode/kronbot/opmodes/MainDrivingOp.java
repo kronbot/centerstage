@@ -120,7 +120,7 @@ public class MainDrivingOp extends LinearOpMode {
             } else {
                 fieldCentricDrive.run();
                 fieldCentricDrive.telemetry(telemetry);
-            };
+            }
 
             telemetry.update();
         }

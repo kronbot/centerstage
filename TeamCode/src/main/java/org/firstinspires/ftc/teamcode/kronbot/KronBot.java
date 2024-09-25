@@ -117,4 +117,9 @@ public class KronBot {
 //        initIntakeServo(hardwareMap);
 //        initIMU(hardwareMap);
     }
+
+    public void initSimpleDriving(HardwareMap hardwareMap) {
+        initIMU(hardwareMap);
+        initMotors(hardwareMap);
+    }
 }
